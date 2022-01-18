@@ -71,12 +71,12 @@ exports.login = async (req, res) => {
     });
 
     if (user === null) {
-      return res.status(403).send({ error: 'Connection failed.' })
+      return res.status(403).send({ error: 'Connection failed.' }) // If the user doens't exist, return a connection error
     } else {
       const hash = await bcrypt.compare(req.body.password, user.password);
 
       if (!hash) {
-        return res.status(401).send({ error: 'Username/Password incorrect.' })
+        return res.status(401).send({ error: 'Username/Password incorrect.' }) // If the body.password !== user.password, return a wrong username/password error
       } else {
         res.status(200).send({
           user: user,
@@ -89,4 +89,3 @@ exports.login = async (req, res) => {
     return res.status(500).send({ error: 'Error login.' })
   }
 }
-
