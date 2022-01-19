@@ -47,7 +47,7 @@ exports.signUp = async (req, res) => {
         username: req.body.username,
         email: req.body.email,
         password: hash,
-        isAdmin: false,
+        isAdmin: req.body.isAdmin || false,
       });
 
       res.status(201).send({
@@ -57,7 +57,7 @@ exports.signUp = async (req, res) => {
     }
   } catch (error) {
     res.status(500).send({
-      error: 'Error creating user'
+      error: error.message
     });
   }
 }

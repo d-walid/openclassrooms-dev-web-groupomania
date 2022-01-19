@@ -10,7 +10,9 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      models.User.hasMany(models.Post);
+      models.Post.hasMany(models.Like);
+      models.Post.hasMany(models.Comment);
     }
   }
   User.init({
@@ -30,9 +32,9 @@ module.exports = (sequelize, DataTypes) => {
     isAdmin: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
-      defaultValue: false,
+      default: false
     },
-    imageProfile: {
+    avatar: {
       type: DataTypes.STRING,
       allowNull: true,
     },

@@ -24,11 +24,13 @@ app.use(bodyParser.json());
 
 // Routes déclaration
 const userRoutes = require('./routes/user.routes');
+const postRoutes = require('./routes/post.routes');
 
 
 // Routes API
 app.use('./uploads', express.static(path.join(__dirname, './uploads')));
 app.use('/api/user', userRoutes);
+app.use('/api/post', postRoutes);
 
 
 module.exports = app;

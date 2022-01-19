@@ -21,7 +21,7 @@ exports.getUser = async (req, res) => {
 exports.getAllUsers = async (req, res) => {
   try {
     const users = await db.User.findAll({
-      attributes: ['id', 'username', 'email', 'imageProfile', 'biography'],
+      attributes: ['id', 'username', 'email', 'avatar', 'biography', 'isAdmin'],
     })
     res.status(200).send(users); // Send all users with the fields selected
   } catch (error) {
@@ -38,13 +38,13 @@ exports.updateUser = async (req, res) => {
 
   try {
     const userId = decodedToken.id;
-    let newImageProfile;
+    let newavatar;
 
     let user = await db.User.findOne({ where: { id: id } });
     if (userId === user.id) {
-      if (req.file && user.imageProfile) {
-        newImageProfile = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
-        const filename = user.imageProfile.split("/uploads")[1];
+      if (req.file && user.avatar) {
+        newavatar = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
+        const filename = user.avatar.split("/uploads")[1];
         fs.unlink(`uploads/${filename}`, (error) => {
           if (error) console.log(error);
           else {
@@ -52,18 +52,18 @@ exports.updateUser = async (req, res) => {
           }
         });
       } else if (req.file) {
-        newImageProfile = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
+        newavatar = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
       }
 
-      if (newImageProfile) {
-        user.imageProfile = newImageProfile;
+      if (newavatar) {
+        user.avatar = newavatar;
       }
 
       if (req.body.biography) {
         user.biography = req.body.biography;
       }
 
-      const newUser = await user.save({ fields: ['imageProfile', 'biography'] });
+      const newUser = await user.save({ fields: ['avatar', 'biography'] });
       res.status(200).json({
         message: 'User updated successfully',
         user: newUser
@@ -84,8 +84,8 @@ exports.deleteUser = async (req, res) => {
     console.log(id);
 
     const user = await db.User.findOne({ where: { id: id } });
-    if (user.imageProfile !== null) {
-      const filename = user.imageProfile.split("/uploads")[1];
+    if (user.avatar !== null) {
+      const filename = user.avatar.split("/uploads")[1];
       fs.unlink(`uploads/${filename}`, () => {
         db.User.destroy({ where: { id: id } });
         res.status(200).json({ message: 'User deleted successfully with his image profile' });
