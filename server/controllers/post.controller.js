@@ -111,6 +111,42 @@ exports.getAllPosts = async (req, res) => {
 };
 
 exports.updatePost = async (req, res) => {
+  try {
+    let newImageUrl;
+    const userId = token.getUserIdFromToken(req);
+
+    let post = await db.Post.findOne({ where: { id: req.params.id } });
+    if (userId === post.UserId) {
+      if (req.file) {
+        newImageUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
+        if (post.imageUrl) {
+          const filename = post.imageUrl.split("/uploads/")[1];
+          fs.unlink(`uploads/${filename}`, (error) => {
+            if (error) console.log(error);
+            else console.log(`${filename} deleted.`);
+          });
+        }
+      }
+
+      if (req.body.message) {
+        post.message = req.body.message;
+      }
+      post.link = req.body.link;
+      post.imageUrl = newImageUrl;
+
+      const newPost = await post.save({
+        fields: ["message", "link", "imageUrl"],
+      });
+      res.status(200).json({
+        newPost: newPost,
+        message: 'Post updated.'
+      })
+    } else {
+      res.status(400).json({ message: 'You are not allowed to update this post.' });
+    }
+  } catch (error) {
+    return res.status(500).send({ error: error.message })
+  }
 };
 
 
@@ -125,7 +161,7 @@ exports.deletePost = async (req, res) => {
         const filename = post.imageUrl.split('/uploads/')[1];
         fs.unlink(`uploads/${filename}`, () => {
           db.Post.destroy({ where: { id: post.id } });
-          res.status(200).json({ message: 'Post deleted with his image.' });
+          res.status(200).json({ message: `Post deleted with his image: ${filename}` });
         })
       } else {
         db.Post.destroy({ where: { id: post.id } }, { truncate: true });
