@@ -174,3 +174,35 @@ exports.deletePost = async (req, res) => {
     return res.status(500).send({ error: error.message })
   }
 };
+
+
+exports.likeDislikePost = async (req, res) => {
+  try {
+    const userId = token.getUserIdFromToken(req);
+    const postId = req.params.id;
+
+    const user = await db.Like.findOne({
+      where: { UserId: userId, PostId: postId }
+    });
+    if (user) {
+      await user.destroy(
+        {
+          where: { UserId: userId, PostId: postId }
+        },
+        {
+          truncate: true, restartIdentity: true
+        }
+      );
+      res.status(200).send({ message: 'Post disliked.' });
+    } else {
+      await db.Like.create({
+        UserId: userId,
+        PostId: postId
+      });
+      res.status(201).send({ message: 'Post liked.' });
+    }
+  } catch (error) {
+    return res.status(500).send({ error: error.message })
+  }
+}
+
