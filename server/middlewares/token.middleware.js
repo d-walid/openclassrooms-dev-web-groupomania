@@ -8,7 +8,7 @@ function tokenGeneration(user) {
   const payload = { sub: id, iat: Date.now() };
   const signedToken = jwt.sign(payload, process.env.JWT_SECRET_TOKEN, { expiresIn: expiresIn });
   return {
-    token: "Bearer " + signedToken,
+    token: signedToken,
     expires: expiresIn
   }
 }

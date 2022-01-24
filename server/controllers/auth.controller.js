@@ -1,8 +1,10 @@
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-
+const token = require('../middlewares/token.middleware');
 require('dotenv').config({ path: './config/.env' });
 const db = require('../models/index');
+
+const { signInErrors } = require('../utils/errors.utils');
+
 
 
 // Create a user
@@ -50,9 +52,13 @@ exports.signUp = async (req, res) => {
         isAdmin: req.body.isAdmin || false,
       });
 
+      const tokenObject = token.tokenGeneration(newUser);
       res.status(201).send({
         message: 'User created successfully',
-        user: newUser
+        user: newUser,
+        token: tokenObject.token,
+        sub: tokenObject.sub,
+        expires: tokenObject.expires,
       });
     }
   } catch (error) {
@@ -76,16 +82,21 @@ exports.login = async (req, res) => {
       const hash = await bcrypt.compare(req.body.password, user.password);
 
       if (!hash) {
-        return res.status(401).send({ error: 'Username/Password incorrect.' }) // If the body.password !== user.password, return a wrong username/password error
+        return res.status(200).send({ error: 'Username/Password incorrect.' }) // If the body.password !== user.password, return a wrong username/password error
       } else {
+        const tokenObject = token.tokenGeneration(user);
+        res.cookie('jwt', tokenObject.token, {
+          httpOnly: true
+        })
         res.status(200).send({
           user: user,
-          token: jwt.sign({ id: user.id }, process.env.JWT_SECRET_TOKEN, { expiresIn: '1h' }),
+          token: tokenObject.token,
+          expires: tokenObject.expires,
           message: 'Successful connection.'
         });
       }
     }
   } catch (error) {
-    return res.status(500).send({ error: 'Error login.' })
+    console.log(error.message);
   }
 }
