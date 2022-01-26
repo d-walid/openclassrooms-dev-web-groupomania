@@ -16,9 +16,7 @@ const SignUpForm = () => {
   const handleRegister = async event => {
     event.preventDefault();
 
-    const emailError = document.querySelector('.email.error');
-    const usernameError = document.querySelector('.username-error');
-    const passwordError = document.querySelector('.password-error');
+    const inputError = document.querySelector('.input.error');
 
     await axios({
       method: 'post',
@@ -33,14 +31,14 @@ const SignUpForm = () => {
       .then(res => {
         if (res.data.error) {
           console.log(res.data.error);
-          emailError.textContent = res.data.error;
+          inputError.textContent = res.data.error;
         } else {
           setFormSubmit(true);
         }
       })
       .catch(err => {
         if (err.response.status === 400)
-          emailError.textContent = err.response.data.error;
+          inputError.textContent = err.response.data.error;
       });
   };
 
@@ -48,8 +46,8 @@ const SignUpForm = () => {
     <>
       {formSubmit ? (
         <>
+          <h4 className='mt-3'>Bienvenue chez Groupomania !</h4>
           <SignInForm />
-          <h4>Bienvenue chez Groupomania !</h4>
         </>
       ) : (
         <Form onSubmit={handleRegister}>
@@ -83,7 +81,7 @@ const SignUpForm = () => {
             />
           </Form.Group>
 
-          <div className='email error'></div>
+          <div className='input error'></div>
           <Button variant='primary' type='submit'>
             Inscription
           </Button>

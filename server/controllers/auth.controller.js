@@ -26,11 +26,9 @@ exports.signUp = async (req, res) => {
   }
 
   if (username.length <= 2) {
-    return res
-      .status(400)
-      .json({
-        error: 'Le champ "Prénom et nom" doit contenir au minimum 3 caractères.'
-      });
+    return res.status(400).json({
+      error: 'Le champ "Prénom et nom" doit contenir au minimum 3 caractères.'
+    });
   }
 
   if (!emailRegex.test(email)) {
@@ -38,11 +36,9 @@ exports.signUp = async (req, res) => {
   }
 
   if (password.length < 6) {
-    return res
-      .status(400)
-      .json({
-        error: 'Votre mot de passe doit contenir au minimum 6 caractères.'
-      });
+    return res.status(400).json({
+      error: 'Votre mot de passe doit contenir au minimum 6 caractères.'
+    });
   }
 
   try {
@@ -92,14 +88,14 @@ exports.login = async (req, res) => {
     });
 
     if (user === null) {
-      return res.status(403).send({ error: 'Connexion raté.' }); // If the user doens't exist, return a connection error
+      return res.status(403).send({ error: 'Connexion raté.' }); // Si l'utilisateur n'existe pas, renvoie une erreur.
     } else {
       const hash = await bcrypt.compare(req.body.password, user.password);
 
       if (!hash) {
         return res
           .status(200)
-          .send({ error: 'Email et/ou mot de passe incorrect.' }); // If the body.password !== user.password, return a wrong username/password error
+          .send({ error: 'Email et/ou mot de passe incorrect.' }); // Si le mot de passe est incorrect, renvoie une erreur.
       } else {
         const tokenObject = token.tokenGeneration(user);
         res.cookie('jwt', tokenObject.token, {
@@ -116,4 +112,9 @@ exports.login = async (req, res) => {
   } catch (error) {
     console.log(error.message);
   }
+};
+
+exports.logout = (req, res) => {
+  res.cookie('jwt', '', { maxAge: 1 });
+  res.redirect('/');
 };
