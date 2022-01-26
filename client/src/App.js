@@ -18,18 +18,18 @@ const App = () => {
         withCredentials: true
       })
         .then(res => {
-          console.log(res);
+          console.log(res.data);
           setUid(res.data);
         })
-        .catch((error) => console.log('No token found.'));
-    }
+        .catch(res => console.log('No token found.'));
+    };
     fetchToken();
-  }, [uid])
+  }, [uid]);
   return (
     <UidContext.Provider value={uid}>
       <Routes />
     </UidContext.Provider>
-  )
+  );
 };
 
 export default App;
