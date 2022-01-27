@@ -104,6 +104,7 @@ exports.login = async (req, res) => {
         res.status(200).send({
           user: user,
           token: tokenObject.token,
+          sub: tokenObject.sub,
           expires: tokenObject.expires,
           message: 'Connexion réussie.'
         });

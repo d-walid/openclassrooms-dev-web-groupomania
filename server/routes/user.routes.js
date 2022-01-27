@@ -12,11 +12,11 @@ const multer = require('../middlewares/multer.middleware');
 // Routes CRUD
 router.post('/register', authController.signUp);
 router.post('/login', authController.login);
-router.get('/logout', auth, authController.logout);
+router.get('/logout', authController.logout);
 
-router.get('/:id', auth, userController.getUser);
-router.get('/', auth, userController.getAllUsers);
-router.put('/:id', auth, multer, userController.updateUser);
-router.delete('/:id', auth, userController.deleteUser);
+router.get('/:id', userController.getUser);
+router.get('/', userController.getAllUsers);
+router.put('/:id', multer, userController.updateUser);
+router.delete('/:id', userController.deleteUser);
 
 module.exports = router;

@@ -25,7 +25,6 @@ const SignInForm = () => {
           emailError.textContent = res.data.error;
         } else {
           window.location = '/';
-          console.log(res);
         }
       })
       .catch(err => {
