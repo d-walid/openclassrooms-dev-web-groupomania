@@ -6,10 +6,17 @@ import { UidContext } from '../Context/AppContext';
 
 // Styles
 import { Nav } from 'react-bootstrap';
+
+// Components
 import Logout from '../Auth/Logout';
+
+// Redux
+import { useSelector } from 'react-redux';
 
 const Navbar = () => {
   const uid = useContext(UidContext);
+  const userData = useSelector((state) => state.userReducer);
+
 
   return (
     <Nav className='justify-content-end'>
@@ -22,7 +29,7 @@ const Navbar = () => {
         <>
           <Nav.Item>
             <NavLink to='/profil' className='nav-link'>
-              <h6>Bienvenue 'valeur dynamique'</h6>
+              <h6>Bienvenue {userData.username}</h6>
             </NavLink>
           </Nav.Item>
           <Nav.Item>

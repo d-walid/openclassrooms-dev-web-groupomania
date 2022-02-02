@@ -5,6 +5,7 @@ import Auth from '../components/Auth';
 
 // Context
 import { UidContext } from '../components/Context/AppContext';
+import UpdateProfil from '../components/Profil/UpdateProfil';
 
 const Profil = () => {
   const uid = useContext(UidContext);
@@ -12,7 +13,7 @@ const Profil = () => {
   return (
     <div className="profil-page">
       {uid ? (
-        <h2>Update page</h2>
+        <UpdateProfil />
       ) : (
 
         <div className="auth-container">

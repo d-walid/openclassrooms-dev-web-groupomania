@@ -6,11 +6,12 @@ const cors = require('cors');
 
 const app = express();
 
-
-app.use(cors({
-  origin: process.env.CLIENT_URL,
-  credentials: true
-}))
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL,
+    credentials: true
+  })
+);
 
 // Requests into JSON Object
 app.use(bodyParser.json());
@@ -24,15 +25,16 @@ const postRoutes = require('./routes/post.routes');
 const { checkUser, requireAuth } = require('./middlewares/auth.middleware');
 
 // Routes API
-app.use('./uploads', express.static(path.join(__dirname, './uploads')));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/api/user', userRoutes);
 app.use('/api/post', postRoutes);
 
 app.use('*', checkUser);
 app.use('/jwtid', requireAuth, (req, res) => {
   res.status(200).send({
+    jwt: req.cookies.jwt,
     user: res.locals.user.dataValues
-  })
+  });
 });
 
 module.exports = app;

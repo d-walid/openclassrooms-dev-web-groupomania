@@ -17,7 +17,9 @@ function tokenGeneration(user) {
 function getUserIdFromToken(req) {
   // Function who verify the userId from the token
   const token = req.headers.authorization.split(' ')[1];
+  console.log('token splited ' + token);
   const decodedToken = jwt.verify(token, process.env.JWT_SECRET_TOKEN);
+  console.log('decodedToken ' + decodedToken.sub);
   const userId = decodedToken.sub;
 
   return userId;

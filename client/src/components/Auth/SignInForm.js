@@ -25,6 +25,7 @@ const SignInForm = () => {
           emailError.textContent = res.data.error;
         } else {
           window.location = '/';
+          localStorage.setItem('user', JSON.stringify(res.data));
         }
       })
       .catch(err => {
@@ -34,28 +35,28 @@ const SignInForm = () => {
 
   return (
     <Form onSubmit={handleLogin}>
-      <Form.Group className='mb-3' controlId='formBasicEmail'>
+      <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Email</Form.Label>
         <Form.Control
-          type='email'
-          placeholder='Email'
+          type="email"
+          placeholder="Email"
           value={email}
           onChange={event => setEmail(event.target.value)}
         />
       </Form.Group>
 
-      <Form.Group className='mb-3' controlId='formBasicPassword'>
+      <Form.Group className="mb-3" controlId="formBasicPassword">
         <Form.Label>Mot de passe</Form.Label>
         <Form.Control
-          type='password'
-          placeholder='Mot de passe'
+          type="password"
+          placeholder="Mot de passe"
           value={password}
           onChange={event => setPassword(event.target.value)}
         />
       </Form.Group>
 
-      <div className='email error'></div>
-      <Button variant='primary' type='submit'>
+      <div className="email error"></div>
+      <Button variant="primary" type="submit">
         Connexion
       </Button>
     </Form>

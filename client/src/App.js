@@ -13,6 +13,9 @@ import Routes from './components/Routes';
 // Actions
 import { getUser } from './actions/user.actions';
 
+// Services
+import { authHeader } from './services/auth';
+
 const App = () => {
   const [uid, setUid] = useState(null);
   const dispatch = useDispatch();
@@ -20,21 +23,21 @@ const App = () => {
   useEffect(() => {
     const fetchToken = async () => {
       await axios({
-        method: "get",
+        method: 'get',
         url: `${process.env.REACT_APP_API_URL}/jwtid`,
-        withCredentials: true,
+        headers: authHeader(),
+        withCredentials: true
       })
-        .then((res) => {
+        .then(res => {
           setUid(res.data.user.id);
         })
-        .catch((err) => console.log(err));
+        .catch(err => console.log('Aucun token trouvé.'));
     };
     fetchToken();
 
     if (uid) dispatch(getUser(uid));
-  }, [uid]);
+  }, [uid, dispatch]);
 
-  
   return (
     <UidContext.Provider value={uid}>
       <Routes />
