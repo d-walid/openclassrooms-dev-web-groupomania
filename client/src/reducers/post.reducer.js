@@ -16,6 +16,16 @@ export default function postReducer(state = initialState, action) {
         }
         return post;
       });
+    case UNLIKE_POST:
+      return state.map(post => {
+        if (post.id === action.payload.postId) {
+          return {
+            ...post,
+            Likes: post.Likes.filter((id) => id !== action.payload.userId)
+          }
+        }
+        return post;
+      })
     default:
       return state;
   }

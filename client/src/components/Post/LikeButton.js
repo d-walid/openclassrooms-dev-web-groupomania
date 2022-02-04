@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import Popup from 'reactjs-popup';
-import { likePost } from '../../actions/post.actions';
+import { likePost, unlikePost } from '../../actions/post.actions';
 
 // Context
 import { UidContext } from '../Context/AppContext';
@@ -16,7 +16,8 @@ const LikeButton = ({ post }) => {
     setLiked(true);
   };
   const unlike = () => {
-    console.log('test unlike');
+    dispatch(unlikePost(post.id, uid));
+    setLiked(false);
   };
 
   useEffect(() => {
@@ -26,7 +27,7 @@ const LikeButton = ({ post }) => {
     } else {
       setLiked(false);
     }
-  }, [uid, liked, post.Likes]);
+  }, [uid, post.Likes, liked]);
 
   return (
     <div className="like-container">
