@@ -6,6 +6,9 @@ export const UNLIKE_POST = 'UNLIKE_POST';
 export const UPDATE_POST = 'UPDATE_POST';
 export const DELETE_POST = 'DELETE_POST';
 
+export const ADD_COMMENT = 'ADD_COMMENT';
+export const DELETE_COMMENT = 'DELETE_COMMENT';
+
 export const getPosts = () => {
   return dispatch => {
     return axios
@@ -101,6 +104,54 @@ export const deletePost = (postId) => {
       .then(res => {
         dispatch({ type: DELETE_POST, payload: { postId } });
         console.log(res);
+      })
+      .catch(err => console.log(err.response));
+  }
+}
+
+
+export const addComment = (postId, commenterId, message, username) => {
+  const token = JSON.parse(localStorage.getItem('user')).token;
+  return (dispatch) => {
+    return axios({
+      method: 'post',
+      url: `${process.env.REACT_APP_API_URL}/api/post/${postId}/comment`,
+      data: {
+        commenterId,
+        message,
+        username
+      },
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      }
+    })
+      .then(res => {
+        console.log(res);
+        dispatch({ type: ADD_COMMENT, payload: { postId } });
+      })
+      .catch(err => console.log(err.response));
+  }
+}
+
+
+export const deleteComment = (commentId) => {
+  const token = JSON.parse(localStorage.getItem('user')).token;
+  return (dispatch) => {
+    return axios({
+      method: 'delete',
+      url: `${process.env.REACT_APP_API_URL}/api/post/comment/${commentId}`,
+      data: {
+        commentId,
+      },
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      }
+    })
+      .then(res => {
+        console.log(res);
+        dispatch({ type: ADD_COMMENT, payload: { commentId } });
       })
       .catch(err => console.log(err.response));
   }

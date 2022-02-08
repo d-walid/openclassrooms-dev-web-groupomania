@@ -4,20 +4,27 @@ const token = require('../middlewares/token.middleware');
 
 exports.createComment = async (req, res) => {
   try {
-    const username = req.body.username;
     const message = req.body.message;
 
-    const newComment = await db.Comment.create({
-      UserId: token.getUserIdFromToken(req),
-      PostId: req.params.id,
-      username: username,
-      message: message,
-    });
+    if (!message) {
+      res.status(400).send({ error: 'Vous devez écrire un message pour que le commentaire soit publié.' });
 
-    res.status(201).json({
-      newComment: newComment,
-      message: 'Your comment has been published.',
-    })
+    } else {
+      const userId = token.getUserIdFromToken(req);
+      const user = await db.User.findOne({ where: { id: userId } });
+      const username = user.username;
+
+      const newComment = await db.Comment.create({
+        UserId: token.getUserIdFromToken(req),
+        PostId: req.params.id,
+        username: username,
+        message: message,
+      });
+      res.status(201).json({
+        newComment: newComment,
+        message: 'Votre commentaire a été publié.',
+      })
+    }
   } catch (error) {
     res.status(500).send({ error: error.message })
   }

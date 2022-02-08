@@ -5,11 +5,13 @@ import Image from 'react-bootstrap/Image';
 import LikeButton from './LikeButton';
 import { updatePost } from '../../actions/post.actions';
 import DeleteCard from './DeleteCard';
+import CardComments from './CardComments';
 
 const Card = ({ post }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [isUpdated, setIsUpdated] = useState(false);
   const [textUpdate, setTextUpdate] = useState(null);
+  const [showComments, setShowComments] = useState(false);
   const postsData = useSelector(state => state.postReducer);
   const usersData = useSelector(state => state.usersReducer);
   const userData = useSelector(state => state.userReducer);
@@ -107,11 +109,14 @@ const Card = ({ post }) => {
               )}
               <div className="card-footer">
                 <div className="comment-icon">
-                  <img src="./img/icons/message1.svg" />
+                  <img
+                    onClick={() => setShowComments(!showComments)}
+                    src="./img/icons/message1.svg" />
                   <span>{post.Comments.length}</span>
                 </div>
                 <LikeButton post={post} />
               </div>
+              {showComments && <CardComments post={post} />}
             </div>
           </div>
         </>
