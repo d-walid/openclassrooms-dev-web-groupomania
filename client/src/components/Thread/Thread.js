@@ -17,13 +17,11 @@ const Thread = () => {
   }, [dispatch, loadPost]);
 
   return (
-    <div className="thread-page">
-      <div className="thread-container">
-        {!isEmpty(posts[0]) &&
-          posts.map(post => {
-            return <Card post={post} key={post.id} />;
-          })}
-      </div>
+    <div className="mt-5">
+      {!isEmpty(posts[0]) &&
+        posts.map(post => {
+          return <Card post={post} key={post.id} />;
+        })}
     </div>
   );
 };

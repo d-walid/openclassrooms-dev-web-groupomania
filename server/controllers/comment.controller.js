@@ -21,7 +21,7 @@ exports.createComment = async (req, res) => {
         message: message,
       });
       res.status(201).json({
-        newComment: newComment,
+        newComment,
         message: 'Votre commentaire a été publié.',
       })
     }

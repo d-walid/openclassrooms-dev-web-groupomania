@@ -38,13 +38,15 @@ export default function postReducer(state = initialState, action) {
     case DELETE_POST:
       return state.filter(post => post.id !== action.payload.postId);
     case DELETE_COMMENT:
+      // delete comment from post when comment id is the same as the one in the action
       return state.map(post => {
         if (post.id === action.payload.postId) {
           return {
             ...post,
             Comments: post.Comments.filter((comment) => comment.id !== action.payload.commentId)
           }
-        } else return post;
+        }
+        return post;
       })
     default:
       return state;

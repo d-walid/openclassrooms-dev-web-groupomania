@@ -39,9 +39,8 @@ exports.updateUser = async (req, res) => {
 
     if (userId === user.id) {
       if (req.file && user.avatar) {
-        newAvatar = `${req.protocol}://${req.get('host')}/uploads/${
-          req.file.filename
-        }`;
+        newAvatar = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename
+          }`;
         const filename = user.avatar.split('uploads')[1];
 
         fs.unlink(`uploads/${filename}`, error => {
@@ -51,9 +50,8 @@ exports.updateUser = async (req, res) => {
           }
         });
       } else if (req.file) {
-        newAvatar = `${req.protocol}://${req.get('host')}/uploads/${
-          req.file.filename
-        }`;
+        newAvatar = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename
+          }`;
       }
 
       if (newAvatar) {
@@ -81,9 +79,11 @@ exports.updateUser = async (req, res) => {
 exports.deleteUser = async (req, res) => {
   try {
     const id = req.params.id;
+    const userId = getUserIdFromToken(req);
     console.log(id);
 
     const user = await db.User.findOne({ where: { id: id } });
+
     if (user.avatar !== null) {
       const filename = user.avatar.split('/uploads')[1];
       fs.unlink(`uploads/${filename}`, () => {
@@ -93,8 +93,15 @@ exports.deleteUser = async (req, res) => {
         });
       });
     } else {
-      db.User.destroy({ where: { id: id } });
-      res.status(200).json({ message: 'User deleted successfully' });
+      // delete user only if userId = user.id
+      if (userId === user.id) {
+        db.User.destroy({ where: { id: id } });
+        res.status(200).json({
+          message: 'User deleted successfully without his image profile'
+        });
+      } else {
+        res.status(400).json({ error: 'You are not allowed to do that.' });
+      }
     }
   } catch (error) {
     res.status(500).send({ error: 'Error deleting user' });

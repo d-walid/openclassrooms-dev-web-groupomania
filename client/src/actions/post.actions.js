@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+export const ADD_POST = 'ADD_POST';
 export const GET_POSTS = 'GET_POSTS';
 export const LIKE_POST = 'LIKE_POST';
 export const UNLIKE_POST = 'UNLIKE_POST';
@@ -8,6 +9,22 @@ export const DELETE_POST = 'DELETE_POST';
 
 export const ADD_COMMENT = 'ADD_COMMENT';
 export const DELETE_COMMENT = 'DELETE_COMMENT';
+
+
+export const addPost = (data) => {
+  const token = JSON.parse(localStorage.getItem('user')).token;
+  return (dispatch) => {
+    return axios({
+      method: 'post',
+      url: `${process.env.REACT_APP_API_URL}/api/post`,
+      data: data,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      }
+    })
+  }
+}
 
 export const getPosts = () => {
   return dispatch => {
@@ -128,21 +145,21 @@ export const addComment = (postId, commenterId, message, username) => {
     })
       .then(res => {
         console.log(res);
-        dispatch({ type: ADD_COMMENT, payload: { postId } });
+        dispatch({ type: ADD_COMMENT, payload: { postId, commenterId, message, username } });
       })
       .catch(err => console.log(err.response));
   }
 }
 
 
-export const deleteComment = (commentId) => {
+export const deleteComment = (postId, commentId) => {
   const token = JSON.parse(localStorage.getItem('user')).token;
   return (dispatch) => {
     return axios({
       method: 'delete',
-      url: `${process.env.REACT_APP_API_URL}/api/post/comment/${commentId}`,
+      url: `${process.env.REACT_APP_API_URL}/api/post/${postId}/comment`,
       data: {
-        commentId,
+        commentId
       },
       headers: {
         'Content-Type': 'application/json',
@@ -150,8 +167,8 @@ export const deleteComment = (commentId) => {
       }
     })
       .then(res => {
+        dispatch({ type: DELETE_COMMENT, payload: { postId, commentId } });
         console.log(res);
-        dispatch({ type: ADD_COMMENT, payload: { commentId } });
       })
       .catch(err => console.log(err.response));
   }

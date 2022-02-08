@@ -4,7 +4,7 @@ import { deleteComment } from '../../actions/post.actions';
 import { UidContext } from '../Context/AppContext';
 
 
-const EditDeleteComment = ({ comment, postId }) => {
+const DeleteComment = ({ comment, postId }) => {
   const [isAuthor, setIsAuthor] = useState(false);
   const uid = useContext(UidContext);
   const dispatch = useDispatch();
@@ -37,4 +37,4 @@ const EditDeleteComment = ({ comment, postId }) => {
   )
 };
 
-export default EditDeleteComment;
+export default DeleteComment;

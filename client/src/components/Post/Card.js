@@ -29,15 +29,15 @@ const Card = ({ post }) => {
   }, [postsData]);
 
   return (
-    <div className="card-container" key={post.id}>
+    <div className="container" key={post.id}>
       {isLoading ? (
         <h6>Chargement</h6>
       ) : (
         <>
           <div>
             <Image
-              width={200}
-              height={200}
+              width={90}
+              height={90}
               fluid={true}
               src={
                 !isEmpty(postsData[0]) &&
