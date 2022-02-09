@@ -1,16 +1,13 @@
 import React, { useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { isEmpty } from '../Utils/Utils';
 import Image from 'react-bootstrap/Image';
 import { addComment, getPosts } from '../../actions/post.actions';
 import DeleteComment from './DeleteComment';
 
 const CardComments = ({ post }) => {
   const [message, setMessage] = useState('');
-  const usersData = useSelector(state => state.usersReducer);
   const userData = useSelector(state => state.userReducer);
-  const postsData = useSelector(state => state.postReducer);
   const dispatch = useDispatch();
 
   const handleComment = (event) => {
@@ -33,15 +30,7 @@ const CardComments = ({ post }) => {
                 width={75}
                 height={75}
                 fluid={true}
-                src={
-                  !isEmpty(postsData[0]) &&
-                  postsData
-                    .map(Comments => {
-                      if (comment.User.avatar) return comment.User.avatar;
-                      else return null;
-                    })
-                    .join('')
-                }
+                src={comment.User.avatar}
                 alt="avatar"
               />
             </div>
