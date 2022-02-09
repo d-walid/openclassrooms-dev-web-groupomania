@@ -17,6 +17,7 @@ const Card = ({ post }) => {
   const userData = useSelector(state => state.userReducer);
   const dispatch = useDispatch();
 
+
   const updateItem = () => {
     if (textUpdate) {
       dispatch(updatePost(post.id, textUpdate))
@@ -99,13 +100,22 @@ const Card = ({ post }) => {
                   allowFullScreen
                 ></iframe>
               )}
-              {userData.id === post.User.id && (
+              {userData.id === post.User.id ? (
                 <div className="button-container">
                   <div onClick={() => setIsUpdated(!isUpdated)}>
                     <img src="./img/icons/edit.svg" alt="edit" />
                   </div>
                   <DeleteCard id={post.id} />
                 </div>
+              ) : (
+                userData.isAdmin && (
+                  <div className="button-container">
+                    <div onClick={() => setIsUpdated(!isUpdated)}>
+                      <img src="./img/icons/edit.svg" alt="edit" />
+                    </div>
+                    <DeleteCard id={post.id} />
+                  </div>
+                )
               )}
               <div className="card-footer">
                 <div className="comment-icon">

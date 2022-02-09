@@ -13,9 +13,8 @@ exports.createPost = async (req, res) => {
     });
     if (user !== null) {
       if (req.file) {
-        imageUrl = `${req.protocol}://${req.get('host')}/uploads/${
-          req.file.filename
-        }`;
+        imageUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename
+          }`;
       } else {
         imageUrl = null;
       }
@@ -117,13 +116,12 @@ exports.updatePost = async (req, res) => {
   try {
     let newImageUrl;
     const userId = token.getUserIdFromToken(req);
-
+    const isAdmin = await db.User.findOne({ where: { id: userId } });
     let post = await db.Post.findOne({ where: { id: req.params.id } });
-    if (userId === post.UserId) {
+    if (userId === post.UserId || isAdmin.isAdmin === true) {
       if (req.file) {
-        newImageUrl = `${req.protocol}://${req.get('host')}/uploads/${
-          req.file.filename
-        }`;
+        newImageUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename
+          }`;
         if (post.imageUrl) {
           const filename = post.imageUrl.split('/uploads/')[1];
           fs.unlink(`uploads/${filename}`, error => {

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateBio } from '../../actions/user.actions';
 import { dateParser } from '../Utils/Utils';
+import DeleteProfil from './DeleteProfil';
 import UploadImage from './UploadImage';
 
 const UpdateProfil = () => {
@@ -47,6 +48,7 @@ const UpdateProfil = () => {
           )}
         </div>
         <h4>Membre depuis {dateParser(userData.createdAt)}</h4>
+        <DeleteProfil />
       </div>
     </div>
   );

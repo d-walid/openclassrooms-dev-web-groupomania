@@ -20,6 +20,10 @@ const CardComments = ({ post }) => {
     }
   }
 
+  const isUserAdmin = () => {
+    return userData.isAdmin === true;
+  }
+
   return (
     <div className="comments-container">
       {post.Comments.map((comment) => {
