@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { Container } from 'react-bootstrap';
 import Auth from '../components/Auth';
 import { UidContext } from '../components/Context/AppContext';
 import NewPostForm from '../components/Post/NewPostForm';
@@ -11,13 +12,10 @@ const Home = () => {
   const uid = useContext(UidContext);
   return (
     <>
-      <div className="home-page">
+      <Container fluid>
         {uid ? <NewPostForm /> : <Auth signin={true} signup={false} />}
         <Thread />
-      </div>
-      <div className='home-header'>
-
-      </div>
+      </Container>
     </>
   );
 };

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button } from 'react-bootstrap'
+import { Button, Container } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { deleteUser } from '../../actions/user.actions'
 
@@ -10,17 +10,16 @@ const DeleteProfil = () => {
   const handleDelete = () => dispatch(deleteUser(userData.id))
 
   return (
-    <div>
-      <Button
-        variant='danger'
-        onClick={() => {
-          if (window.confirm('Voulez-vous supprimer votre profil?')) {
-            handleDelete();
-            window.location.href = '/';
-          }
-        }}
-      >Supprimer son profil</Button>
-    </div>
+    <Button
+      className='mt-2 mb-2'
+      variant='danger'
+      onClick={() => {
+        if (window.confirm('Voulez-vous supprimer votre profil?')) {
+          handleDelete();
+          window.location.href = '/';
+        }
+      }}
+    >Supprimer son profil</Button>
   )
 }
 

@@ -37,8 +37,8 @@ const Card = ({ post }) => {
         <>
           <div>
             <Image
-              width={90}
-              height={90}
+              width={100}
+              height={100}
               fluid={true}
               src={
                 !isEmpty(postsData[0]) &&
@@ -83,8 +83,8 @@ const Card = ({ post }) => {
             <div className="card-body">
               {post.imageUrl && (
                 <Image
-                  width={400}
-                  height={400}
+                  width={200}
+                  height={200}
                   fluid={true}
                   src={post.imageUrl}
                   alt="post-img"
@@ -92,8 +92,8 @@ const Card = ({ post }) => {
               )}
               {post.link && (
                 <iframe
-                  width="500"
-                  height="300"
+                  width="200"
+                  height="200"
                   src={post.link}
                   frameBorder="0"
                   allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"

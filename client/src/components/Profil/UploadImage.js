@@ -25,22 +25,22 @@ const UploadImage = () => {
   };
 
   return (
-    <form
+    <Form
       encType='multipart/form-data'
       onSubmit={handleAvatar}
-      className='upload-pic'
     >
-      <label htmlFor='file'>Changer d'image</label>
-      <input
-        type='file'
-        id='file'
-        name='file'
-        accept='.jpg, .jpeg, .png'
-        onChange={event => setFile(event.target.files[0])}
-      />
-      <br />
-      <input type='submit' value='Envoyer' />
-    </form>
+      <Form.Group>
+        <Form.Label htmlFor='file'>Changer d'image</Form.Label>
+        <Form.Control
+          type='file'
+          id='file'
+          name='file'
+          accept='.jpg, .jpeg, .png'
+          onChange={event => setFile(event.target.files[0])}
+        />
+      </Form.Group>
+      <Button className='mt-2' variant='primary' type='submit'>Envoyer</Button>
+    </Form>
   );
 };
 

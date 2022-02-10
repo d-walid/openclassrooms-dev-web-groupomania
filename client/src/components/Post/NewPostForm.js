@@ -78,8 +78,8 @@ const NewPostForm = () => {
           <NavLink to="/profil">
             <div className="user-info">
               <Image
-                width={50}
-                height={50}
+                width={100}
+                height={100}
                 fluid={true}
                 src={userData.avatar}
                 alt="avatar"
@@ -98,8 +98,8 @@ const NewPostForm = () => {
               <div>
                 <div className="card-left">
                   <Image
-                    width={50}
-                    height={50}
+                    width={100}
+                    height={100}
                     fluid={true}
                     src={userData.avatar}
                     alt="avatar"
@@ -118,8 +118,8 @@ const NewPostForm = () => {
                     {link && (
                       <iframe
                         title='link'
-                        width="500"
-                        height="300"
+                        width="200"
+                        height="200"
                         src={link}
                         frameBorder="0"
                         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
@@ -139,7 +139,7 @@ const NewPostForm = () => {
                       type="file"
                       id="file"
                       name="file"
-                      accept='.jpg, .jpeg, .png'
+                      accept='.jpg, .jpeg, .png, .gif'
                       onChange={(event) => handlePicture(event)}
                     />
                   </>

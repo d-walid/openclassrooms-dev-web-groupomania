@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { Container } from 'react-bootstrap';
 
 // Components
 import Auth from '../components/Auth';
@@ -11,16 +12,15 @@ const Profil = () => {
   const uid = useContext(UidContext);
 
   return (
-    <div className="profil-page">
+    <Container fluid>
       {uid ? (
         <UpdateProfil />
       ) : (
-
         <div className="auth-container">
           <Auth signin={false} signup={true} />
         </div>
       )}
-    </div>
+    </Container>
   )
 };
 

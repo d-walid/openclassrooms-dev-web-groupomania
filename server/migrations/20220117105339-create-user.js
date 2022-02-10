@@ -24,7 +24,8 @@ module.exports = {
         default: false,
       },
       avatar: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        defaultValue: './img/icons-groupomania/logo.png'
       },
       createdAt: {
         allowNull: false,
