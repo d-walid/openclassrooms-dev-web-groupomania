@@ -21,7 +21,7 @@ const Auth = props => {
   };
 
   return (
-    <Container fluid='md'>
+    <Container fluid='sm'>
       <Button
         className='mt-3 mb-3'
         variant='primary'

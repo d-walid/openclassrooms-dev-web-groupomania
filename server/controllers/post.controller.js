@@ -183,33 +183,80 @@ exports.deletePost = async (req, res) => {
   }
 };
 
-exports.likeDislikePost = async (req, res) => {
+
+exports.likePost = async (req, res) => {
   try {
     const userId = token.getUserIdFromToken(req);
     const postId = req.params.id;
 
-    const user = await db.Like.findOne({
+    const like = await db.Like.findOne({
       where: { UserId: userId, PostId: postId }
     });
-    if (user) {
-      await user.destroy(
-        {
-          where: { UserId: userId, PostId: postId }
-        },
-        {
-          truncate: true,
-          restartIdentity: true
-        }
-      );
-      res.status(200).send({ message: 'Post disliked.' });
-    } else {
-      await db.Like.create({
-        UserId: userId,
-        PostId: postId
+    if (like === null) {
+      await db.Like.create({ UserId: userId, PostId: postId });
+      const post = await db.Post.findOne({
+        where: { id: postId },
+        include: [
+          {
+            model: db.User,
+            attributes: ['id', 'username']
+          },
+          {
+            model: db.Like,
+            attributes: ['UserId', 'PostId']
+          },
+        ]
       });
-      res.status(201).send({ message: 'Post liked.' });
+      res.status(200).json({
+        post: post,
+        message: 'Post liked.'
+      });
+    } else {
+      res
+        .status(400)
+        .json({ message: 'You already liked this post.' });
     }
-  } catch (error) {
+  }
+  catch (error) {
     return res.status(500).send({ error: error.message });
   }
-};
+}
+
+
+exports.unlikePost = async (req, res) => {
+  try {
+    const userId = token.getUserIdFromToken(req);
+    const postId = req.params.id;
+
+    const like = await db.Like.findOne({
+      where: { UserId: userId, PostId: postId }
+    });
+    if (like !== null) {
+      await db.Like.destroy({ where: { UserId: userId, PostId: postId } });
+      const post = await db.Post.findOne({
+        where: { id: postId },
+        include: [
+          {
+            model: db.User,
+            attributes: ['id', 'username']
+          },
+          {
+            model: db.Like,
+            attributes: ['UserId', 'PostId']
+          },
+        ]
+      });
+      res.status(200).json({
+        post: post,
+        message: 'Post unliked.'
+      });
+    } else {
+      res
+        .status(400)
+        .json({ message: 'You did not like this post.' });
+    }
+  }
+  catch (error) {
+    return res.status(500).send({ error: error.message });
+  }
+}

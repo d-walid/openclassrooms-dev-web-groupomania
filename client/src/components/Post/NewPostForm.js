@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { isEmpty, timestampParser } from '../Utils/Utils';
 import { NavLink } from 'react-router-dom';
-import { Button, Image } from 'react-bootstrap';
+import { Button, Card, Container, Image, Row, Col } from 'react-bootstrap';
 import { addPost, getPosts } from '../../actions/post.actions';
 
 
@@ -70,30 +70,36 @@ const NewPostForm = () => {
     if (!isEmpty(userData)) setIsLoading(false);
   }, [userData])
   return (
-    <div className="container">
+    <Container>
       {isLoading ? (
         <h6>Chargement</h6>
       ) : (
         <>
-          <NavLink to="/profil">
-            <div className="user-info">
-              <Image
-                width={100}
-                height={100}
-                fluid={true}
-                src={userData.avatar}
-                alt="avatar"
+          <Row>
+            <Col>
+              <Card>
+                <Image
+                  roundedCircle
+                  width={100}
+                  height={100}
+                  fluid={true}
+                  src={userData.avatar}
+                  alt="avatar-post-author"
+                />
+              </Card>
+            </Col>
+
+            <Col sm={11}>
+              <textarea
+                name='message'
+                id='message'
+                placeholder='Dites quelque chose...'
+                onChange={(event) => setMessage(event.target.value)}
+                value={message}
               />
-            </div>
-          </NavLink>
-          <div className="post-form">
-            <textarea
-              name='message'
-              id='message'
-              placeholder='Dites quelque chose...'
-              onChange={(event) => setMessage(event.target.value)}
-              value={message}
-            />
+            </Col>
+
+
             {message || postPicture || link.length > 20 ? (
               <div>
                 <div className="card-left">
@@ -129,12 +135,14 @@ const NewPostForm = () => {
                   </div>
                 </div>
               </div>
+
             ) : null}
+
             <div className="footer-form">
               <div className="icon">
                 {isEmpty(link) && (
                   <>
-                    <img src="./img/icons/picture.svg" alt="picture" />
+                    <img src="./img/icons/picture.svg" alt="post-form" />
                     <input
                       type="file"
                       id="file"
@@ -148,17 +156,21 @@ const NewPostForm = () => {
                   <Button onClick={() => setLink('')}>Supprimer la vidéo</Button>
                 )}
               </div>
+
               <div className="btn-send">
                 {message || postPicture || link.length > 20 ? (
                   <Button variant='secondary' onClick={cancelPost}>Annuler</Button>
                 ) : null}
                 <Button variant='primary' onClick={handlePost}>Envoyer</Button>
               </div>
+
             </div>
-          </div>
+          </Row>
         </>
+
       )}
-    </div>
+
+    </Container>
   )
 };
 

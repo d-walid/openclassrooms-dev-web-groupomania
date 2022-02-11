@@ -16,9 +16,7 @@ const Profil = () => {
       {uid ? (
         <UpdateProfil />
       ) : (
-        <div className="auth-container">
-          <Auth signin={false} signup={true} />
-        </div>
+        <Auth signin={false} signup={true} />
       )}
     </Container>
   )

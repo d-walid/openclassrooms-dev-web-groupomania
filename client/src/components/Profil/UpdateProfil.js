@@ -23,11 +23,13 @@ const UpdateProfil = () => {
 
         <Col sm={7}>
           <Card className='mb-3'>
-            <Card.Header as='h3'>{userData.username}</Card.Header>
+            <Card.Header as='h4' bg='light'>{userData.username}</Card.Header>
             <Card.Body>
               <Image
-                width={100}
-                height={100}
+                roundedCircle
+                fluid={true}
+                width={200}
+                height={200}
                 src={userData.avatar}
                 alt="avatar"
               />
@@ -38,11 +40,8 @@ const UpdateProfil = () => {
 
         <Col sm={5}>
           <Card>
-            <Card.Header as='h3'>Mes informations</Card.Header>
+            <Card.Header as='h4'>Biographie</Card.Header>
             <Card.Body>
-              <Card.Title>
-                <h5>Biographie</h5>
-              </Card.Title>
               <Card.Text onClick={() => setUpdateForm(!updateForm)}>
                 {userData.biography}
               </Card.Text>

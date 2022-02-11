@@ -44,10 +44,11 @@ export const likePost = (postId, userId) => {
   const token = JSON.parse(localStorage.getItem('user')).token;
   return dispatch => {
     return axios({
-      method: 'post',
+      method: 'patch',
       url: `${process.env.REACT_APP_API_URL}/api/post/${postId}/like`,
       data: {
-        id: userId
+        userId: userId,
+        postId: postId
       },
       headers: {
         'Content-Type': 'application/json',
@@ -55,11 +56,14 @@ export const likePost = (postId, userId) => {
       }
     })
       .then(res => {
-        dispatch({ type: LIKE_POST, payload: { postId, userId } });
-        console.log(res);
+        dispatch({
+          type: LIKE_POST,
+          payload: { postId, userId }
+        });
       })
-      .catch(err => console.log(err.response));
+      .catch(err => console.log(err));
   };
+
 };
 
 
@@ -67,10 +71,11 @@ export const unlikePost = (postId, userId) => {
   const token = JSON.parse(localStorage.getItem('user')).token;
   return dispatch => {
     return axios({
-      method: 'post',
-      url: `${process.env.REACT_APP_API_URL}/api/post/${postId}/like`,
+      method: 'patch',
+      url: `${process.env.REACT_APP_API_URL}/api/post/${postId}/unlike`,
       data: {
-        id: userId
+        userId: userId,
+        postId: postId
       },
       headers: {
         'Content-Type': 'application/json',
@@ -78,13 +83,15 @@ export const unlikePost = (postId, userId) => {
       }
     })
       .then(res => {
-        dispatch({ type: UNLIKE_POST, payload: { postId, userId } });
-        console.log(res);
+        dispatch({
+          type: UNLIKE_POST,
+          payload: { postId, userId }
+        });
       })
-      .catch(err => console.log(err.response));
+      .catch(err => console.log(err));
   };
-};
 
+};
 
 export const updatePost = (postId, message) => {
   const token = JSON.parse(localStorage.getItem('user')).token;

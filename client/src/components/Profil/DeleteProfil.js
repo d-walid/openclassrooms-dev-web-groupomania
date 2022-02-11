@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Container } from 'react-bootstrap'
+import { Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { deleteUser } from '../../actions/user.actions'
 
@@ -19,7 +19,9 @@ const DeleteProfil = () => {
           window.location.href = '/';
         }
       }}
-    >Supprimer son profil</Button>
+    >
+      Supprimer son profil
+    </Button>
   )
 }
 

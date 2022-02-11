@@ -7,22 +7,22 @@ export default function postReducer(state = initialState, action) {
     case GET_POSTS:
       return action.payload;
     case LIKE_POST:
-      return state.map(post => {
+      return state.map((post) => {
         if (post.id === action.payload.postId) {
           return {
             ...post,
-            Likes: [action.payload.userId, ...post.Likes]
+            likers: [action.payload.userId, ...post.likers],
           };
         }
         return post;
-      });
+      })
     case UNLIKE_POST:
-      return state.map(post => {
+      return state.map((post) => {
         if (post.id === action.payload.postId) {
           return {
             ...post,
-            Likes: post.Likes.filter((id) => id !== action.payload.userId)
-          }
+            likers: post.likers.filter((id) => id !== action.payload.userId),
+          };
         }
         return post;
       })
@@ -38,7 +38,6 @@ export default function postReducer(state = initialState, action) {
     case DELETE_POST:
       return state.filter(post => post.id !== action.payload.postId);
     case DELETE_COMMENT:
-      // delete comment from post when comment id is the same as the one in the action
       return state.map(post => {
         if (post.id === action.payload.postId) {
           return {

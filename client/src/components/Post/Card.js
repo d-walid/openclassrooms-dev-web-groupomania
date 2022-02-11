@@ -58,7 +58,6 @@ const Card = ({ post }) => {
                 <h3>
                   {!isEmpty(postsData[0]) &&
                     postsData.map(user => {
-                      // if the user id is the same as the post user id then return the username
                       if (user.id === post.id) return user.User.username;
                       else return null;
                     })}

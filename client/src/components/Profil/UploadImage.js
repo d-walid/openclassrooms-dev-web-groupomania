@@ -26,11 +26,11 @@ const UploadImage = () => {
 
   return (
     <Form
+      className='mt-2'
       encType='multipart/form-data'
       onSubmit={handleAvatar}
     >
       <Form.Group>
-        <Form.Label htmlFor='file'>Changer d'image</Form.Label>
         <Form.Control
           type='file'
           id='file'
