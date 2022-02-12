@@ -4,6 +4,7 @@ export const ADD_POST = 'ADD_POST';
 export const GET_POSTS = 'GET_POSTS';
 export const LIKE_POST = 'LIKE_POST';
 export const UNLIKE_POST = 'UNLIKE_POST';
+export const GET_LIKES = 'GET_LIKES';
 export const UPDATE_POST = 'UPDATE_POST';
 export const DELETE_POST = 'DELETE_POST';
 
@@ -44,7 +45,7 @@ export const likePost = (postId, userId) => {
   const token = JSON.parse(localStorage.getItem('user')).token;
   return dispatch => {
     return axios({
-      method: 'patch',
+      method: 'post',
       url: `${process.env.REACT_APP_API_URL}/api/post/${postId}/like`,
       data: {
         userId: userId,
@@ -56,9 +57,13 @@ export const likePost = (postId, userId) => {
       }
     })
       .then(res => {
+        console.log(res);
         dispatch({
           type: LIKE_POST,
-          payload: { postId, userId }
+          payload: {
+            User: res.data.User,
+            Post: res.data.Post
+          }
         });
       })
       .catch(err => console.log(err));
@@ -66,12 +71,11 @@ export const likePost = (postId, userId) => {
 
 };
 
-
 export const unlikePost = (postId, userId) => {
   const token = JSON.parse(localStorage.getItem('user')).token;
   return dispatch => {
     return axios({
-      method: 'patch',
+      method: 'post',
       url: `${process.env.REACT_APP_API_URL}/api/post/${postId}/unlike`,
       data: {
         userId: userId,
@@ -83,15 +87,39 @@ export const unlikePost = (postId, userId) => {
       }
     })
       .then(res => {
+        console.log(res)
         dispatch({
           type: UNLIKE_POST,
-          payload: { postId, userId }
+          payload: {
+            User: res.data.User,
+            Post: res.data.Post
+          }
         });
       })
       .catch(err => console.log(err));
   };
-
 };
+
+
+export const getLikes = (postId) => {
+  const token = JSON.parse(localStorage.getItem('user')).token;
+  return dispatch => {
+    return axios
+      .get(`${process.env.REACT_APP_API_URL}/api/post/${postId}/likes`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token
+        }
+      })
+      .then(res => {
+        dispatch({
+          type: GET_LIKES,
+          payload: res.data
+        });
+      })
+      .catch(err => console.log(err));
+  };
+}
 
 export const updatePost = (postId, message) => {
   const token = JSON.parse(localStorage.getItem('user')).token;

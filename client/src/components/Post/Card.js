@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { dateParser, isEmpty } from '../Utils/Utils';
 import Image from 'react-bootstrap/Image';
 import LikeButton from './LikeButton';
-import { updatePost } from '../../actions/post.actions';
+import { getLikes, updatePost } from '../../actions/post.actions';
 import DeleteCard from './DeleteCard';
 import CardComments from './CardComments';
+import { UidContext } from '../Context/AppContext';
 
 const Card = ({ post }) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -25,9 +26,16 @@ const Card = ({ post }) => {
     setIsUpdated(false);
   }
 
+  // get the likes of the post
+  useEffect(() => {
+    dispatch(getLikes(post.id));
+  }, [dispatch, post.id]);
+
+
   useEffect(() => {
     !isEmpty(postsData[0]) && setIsLoading(false);
   }, [postsData]);
+
 
   return (
     <div className="container" key={post.id}>

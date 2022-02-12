@@ -6,11 +6,22 @@ export const UPDATE_BIO = 'UPDATE_BIO';
 export const DELETE_USER = 'DELETE_USER';
 
 export const getUser = uid => {
+  const token = JSON.parse(localStorage.getItem('user')).token;
   return dispatch => {
     return axios
-      .get(`${process.env.REACT_APP_API_URL}/api/user/${uid}`)
+      .get(`${process.env.REACT_APP_API_URL}/api/user/${uid}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token
+        }
+      })
       .then(res => {
-        dispatch({ type: GET_USER, payload: res.data });
+        dispatch({
+          type: GET_USER, payload: {
+            ...res.data.user,
+            ...res.data.likes,
+          }
+        });
       })
       .catch(err => console.log(err.message));
   };

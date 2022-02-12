@@ -10,7 +10,18 @@ exports.getUser = async (req, res) => {
     const user = await db.User.findOne({
       where: { id: req.params.id }
     });
-    res.status(200).send(user); // If the user exist, return the user
+    const likes = await db.Like.findAll({
+      where: { userId: req.params.id },
+      attributes: ['id', 'userId', 'postId'],
+      include: [
+        {
+          model: db.Post,
+          attributes: ['id', 'imageUrl', 'message', 'link']
+        }
+      ]
+    });
+
+    res.status(200).send({ user, likes }); // If the user exist, return the user
   } catch (error) {
     res.status(500).send({ error: 'Error getting user' });
   }

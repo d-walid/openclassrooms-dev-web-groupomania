@@ -187,37 +187,26 @@ exports.deletePost = async (req, res) => {
 exports.likePost = async (req, res) => {
   try {
     const userId = token.getUserIdFromToken(req);
-    const postId = req.params.id;
-
+    const post = await db.Post.findOne({ where: { id: req.params.id } });
+    const user = await db.User.findOne({ where: { id: userId } });
     const like = await db.Like.findOne({
-      where: { UserId: userId, PostId: postId }
+      where: { UserId: userId, PostId: post.id }
     });
     if (like === null) {
-      await db.Like.create({ UserId: userId, PostId: postId });
-      const post = await db.Post.findOne({
-        where: { id: postId },
-        include: [
-          {
-            model: db.User,
-            attributes: ['id', 'username']
-          },
-          {
-            model: db.Like,
-            attributes: ['UserId', 'PostId']
-          },
-        ]
+      await db.Like.create({
+        UserId: userId,
+        PostId: post.id,
+        User: user
       });
       res.status(200).json({
-        post: post,
-        message: 'Post liked.'
+        message: 'Post liked.',
+        User: user,
+        PostId: post.id
       });
     } else {
-      res
-        .status(400)
-        .json({ message: 'You already liked this post.' });
+      res.status(400).json({ message: 'You already liked this post.' });
     }
-  }
-  catch (error) {
+  } catch (error) {
     return res.status(500).send({ error: error.message });
   }
 }
@@ -226,37 +215,52 @@ exports.likePost = async (req, res) => {
 exports.unlikePost = async (req, res) => {
   try {
     const userId = token.getUserIdFromToken(req);
-    const postId = req.params.id;
-
+    const post = await db.Post.findOne({ where: { id: req.params.id } });
+    const user = await db.User.findOne({ where: { id: userId } });
     const like = await db.Like.findOne({
-      where: { UserId: userId, PostId: postId }
+      where: { UserId: userId, PostId: post.id }
     });
-    if (like !== null) {
-      await db.Like.destroy({ where: { UserId: userId, PostId: postId } });
-      const post = await db.Post.findOne({
-        where: { id: postId },
-        include: [
-          {
-            model: db.User,
-            attributes: ['id', 'username']
-          },
-          {
-            model: db.Like,
-            attributes: ['UserId', 'PostId']
-          },
-        ]
+
+    // remove the user from the post's likes
+    if (like) {
+      await db.Like.destroy({
+        where: { UserId: userId, PostId: post.id },
       });
       res.status(200).json({
-        post: post,
-        message: 'Post unliked.'
+        message: 'You unliked this post.',
+        User: user,
+        PostId: post.id,
       });
     } else {
-      res
-        .status(400)
-        .json({ message: 'You did not like this post.' });
+      res.status(400).json({ message: 'You did not like this post.' });
     }
-  }
-  catch (error) {
+  } catch (error) {
     return res.status(500).send({ error: error.message });
   }
 }
+
+
+exports.getAllLikesFromUser = async (req, res) => {
+  try {
+    const userId = token.getUserIdFromToken(req);
+    const likes = await db.Like.findAll({
+      where: { UserId: userId },
+      include: [
+        {
+          model: db.Post,
+          attributes: ['id', 'message', 'imageUrl', 'link', 'createdAt'],
+          include: [
+            {
+              model: db.User,
+              attributes: ['id', 'username']
+            },
+          ]
+        }
+      ]
+    });
+    res.status(200).json(likes);
+  } catch (error) {
+    return res.status(500).send({ error: error.message });
+  }
+}
+
