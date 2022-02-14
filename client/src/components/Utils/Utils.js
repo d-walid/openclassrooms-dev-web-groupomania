@@ -5,6 +5,7 @@ export const dateParser = num => {
     day: 'numeric',
     hour: 'numeric',
     minute: 'numeric',
+    second: '2-digit',
     weekday: 'long'
   };
 
@@ -21,7 +22,7 @@ export const timestampParser = num => {
     second: '2-digit',
     weekday: 'long',
     year: 'numeric',
-    month: 'short',
+    month: 'long',
     day: 'numeric'
   };
 

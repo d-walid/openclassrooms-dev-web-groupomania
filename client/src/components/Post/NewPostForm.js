@@ -74,7 +74,7 @@ const NewPostForm = () => {
       ) : (
         <>
           <Row>
-            <Col sm={2}>
+            <Col sm={1}>
               <Image
                 className='mb-3'
                 roundedCircle
@@ -86,11 +86,11 @@ const NewPostForm = () => {
               />
             </Col>
 
-            <Col sm={4}>
+            <Col sm={3}>
               <FormControl
                 as="textarea"
                 size="md"
-                rows="4"
+                rows="3"
                 name='message'
                 id='message'
                 placeholder='Dites quelque chose...'
@@ -121,8 +121,8 @@ const NewPostForm = () => {
                 {link && (
                   <iframe
                     title='link'
-                    width="200"
-                    height="200"
+                    width="415"
+                    height="400"
                     src={link}
                     frameBorder="0"
                     allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
@@ -132,32 +132,34 @@ const NewPostForm = () => {
               </Container>
             ) : null}
 
-            <div className="footer-form">
-              <div className="icon">
-                {isEmpty(link) && (
-                  <>
-                    <Form.Group controlId="formFile" className="mt-3 mb-3">
-                      <Form.Control
-                        className="w-50"
-                        type="file"
-                        onChange={handlePicture}
-                      />
-                    </Form.Group>
-                  </>
-                )}
-                {link && (
-                  <Button onClick={() => setLink('')}>Supprimer la vidéo</Button>
-                )}
-              </div>
 
-              <div className="btn-send">
-                {message || postPicture || link.length > 20 ? (
-                  <Button variant='secondary' onClick={cancelPost}>Annuler</Button>
-                ) : null}
-                <Button variant='primary' onClick={handlePost}>Envoyer</Button>
-              </div>
-
+            <div className="icon">
+              {isEmpty(link) && (
+                <>
+                  <Form.Group controlId="formFile" className="mt-3 mb-3">
+                    <Form.Control
+                      className="w-50"
+                      type="file"
+                      onChange={handlePicture}
+                    />
+                  </Form.Group>
+                </>
+              )}
+              {link && (
+                <Button className='mb-2' onClick={() => setLink('')}>Supprimer la vidéo</Button>
+              )}
             </div>
+
+            <div className='footer-post'>
+
+              {message || postPicture || link.length > 20 ? (
+                <Button variant='secondary' onClick={cancelPost}>Annuler</Button>
+              ) : null}
+              <Button variant='primary' onClick={handlePost}>Envoyer</Button>
+            </div>
+
+
+
           </Row>
         </>
 

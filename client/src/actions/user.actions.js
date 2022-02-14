@@ -42,7 +42,7 @@ export const uploadPicture = (data, id) => {
         return axios
           .get(`${process.env.REACT_APP_API_URL}/api/user/${id}`)
           .then(res => {
-            dispatch({ type: UPLOAD_PICTURE, payload: res.data.avatar });
+            dispatch({ type: UPLOAD_PICTURE, payload: res.data.user.avatar });
           })
           .catch(err => {
             console.log(err.response.data);
@@ -56,7 +56,6 @@ export const uploadPicture = (data, id) => {
 
 export const updateBio = (id, biography) => {
   const token = JSON.parse(localStorage.getItem('user')).token;
-  console.log('token update page ' + token);
 
   return dispatch => {
     return axios({
@@ -88,7 +87,6 @@ export const deleteUser = id => {
       }
     })
       .then(res => {
-        console.log(res);
         dispatch({ type: DELETE_USER });
       })
       .catch(err => console.log(err.stack));

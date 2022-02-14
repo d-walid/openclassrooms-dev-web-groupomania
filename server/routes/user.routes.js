@@ -17,6 +17,6 @@ router.get('/logout', authController.logout);
 router.get('/:id', userController.getUser);
 router.get('/', userController.getAllUsers);
 router.put('/upload/:id', multer, userController.updateUser);
-router.delete('/:id', requireAuth, userController.deleteUser);
+router.delete('/:id', userController.deleteUser);
 
 module.exports = router;

@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { Image } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteComment } from '../../actions/post.actions';
 import { UidContext } from '../Context/AppContext';
@@ -24,7 +25,7 @@ const DeleteComment = ({ comment, postId }) => {
   }, [])
 
   return (
-    <div className="delete-comment">
+    <div className="delete-comment mb-3">
       {isAuthor && (
         <span onClick={() => {
           if (window.confirm('Voulez-vous supprimer ce commentaire ?')) {
@@ -32,7 +33,11 @@ const DeleteComment = ({ comment, postId }) => {
             window.location.reload();
           }
         }}>
-          <img src="./img/icons/trash.svg" alt="trash" />
+          <Image
+            width={35}
+            height={35}
+            fluid={true}
+            src="./img/icons/trash.svg" alt="trash" />
         </span>
       )}
     </div>

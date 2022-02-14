@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { dateParser, isEmpty } from '../Utils/Utils';
-import Image from 'react-bootstrap/Image';
+import { Card as CardBootstrap, Image, Col, Row, Button, Container, FormControl } from 'react-bootstrap';
 import { updatePost } from '../../actions/post.actions';
 import DeleteCard from './DeleteCard';
 import CardComments from './CardComments';
@@ -29,109 +29,160 @@ const Card = ({ post }) => {
 
 
   return (
-    <div className="container" key={post.id}>
+    <Container className='mb-5' key={post.id}>
       {isLoading ? (
         <h6>Chargement</h6>
       ) : (
         <>
-          <div>
-            <Image
-              width={100}
-              height={100}
-              fluid={true}
-              src={
-                !isEmpty(postsData[0]) &&
-                postsData
-                  .map(user => {
-                    if (user.id === post.id) return user.User.avatar;
-                    else return null;
-                  })
-                  .join('')
-              }
-              alt="avatar"
-            />
-          </div>
-          <div className="card-right">
-            <div className="card-header">
-              <div className="pseudo">
-                <h3>
+
+          <Row>
+            <Col sm={1}>
+              <Image
+                className='mb-3'
+                width={100}
+                height={100}
+                roundedCircle
+                fluid={true}
+                src={
+                  !isEmpty(postsData[0]) &&
+                  postsData
+                    .map(user => {
+                      if (user.id === post.id) return user.User.avatar;
+                      else return null;
+                    })
+                    .join('')
+                }
+                alt="avatar"
+              />
+            </Col>
+          </Row>
+
+          {/* Bloc Header & Date du post */}
+          <Row>
+            <Col sm={4}>
+              <CardBootstrap>
+                <CardBootstrap.Header>
                   {!isEmpty(postsData[0]) &&
                     postsData.map(user => {
-                      if (user.id === post.id) return user.User.username;
+                      if (user.id === post.id) {
+                        return (
+                          <h4>{user.User.username}</h4>
+                        );
+                      }
                       else return null;
                     })}
-                </h3>
+                  <span>{dateParser(post.createdAt)}</span>
+                </CardBootstrap.Header>
+              </CardBootstrap>
+            </Col>
+          </Row>
+
+          {isUpdated === false && (
+            <>
+              {/* Bloc du post */}
+              <Row>
+                <Col sm={4}>
+                  <CardBootstrap className='mb-2'>
+                    <CardBootstrap.Body>
+                      <CardBootstrap.Text>
+                        {post.message}
+                      </CardBootstrap.Text>
+                    </CardBootstrap.Body>
+                  </CardBootstrap>
+                </Col>
+              </Row>
+            </>
+          )}
+
+          {isUpdated && (
+            <>
+              <FormControl
+                as="textarea"
+                size="md"
+                rows="3"
+                name='message'
+                id='message'
+                defaultValue={post.message}
+                onChange={(event) => setTextUpdate(event.target.value)}
+                value={textUpdate}
+              />
+              <div className="button-container">
+                <Button className='mt-3 mb-3' onClick={updateItem}>
+                  Valider
+                </Button>
               </div>
-              <span>{dateParser(post.createdAt)}</span>
-            </div>
-            {isUpdated === false && <p>{post.message}</p>}
-            {isUpdated && (
-              <div className="update-post">
-                <textarea
-                  defaultValue={post.message}
-                  onChange={(event) => setTextUpdate(event.target.value)}
-                />
-                <div className="button-container">
-                  <div className="btn" onClick={updateItem}>
-                    Valider
-                  </div>
-                </div>
-              </div>
-            )}
-            <div className="card-body">
-              {post.imageUrl && (
+            </>
+          )}
+
+          {post.imageUrl && (
+
+            <Col sm={4}>
+              <Image
+                width={300}
+                height={300}
+                fluid={true}
+                src={post.imageUrl}
+                alt="post-img"
+              />
+            </Col>
+          )}
+
+
+          {post.link && (
+            <Col sm={4}>
+
+              <iframe
+                title="post-video"
+                width="300"
+                height="300"
+                src={post.link}
+                frameBorder="0"
+                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              ></iframe>
+            </Col>
+          )}
+
+
+          {userData.id === post.User.id ? (
+            <>
+              <Image
+                width={35}
+                height={35}
+                fluid={true}
+                onClick={() => setIsUpdated(!isUpdated)} src="./img/icons/edit.svg" alt="edit"
+              />
+              <DeleteCard id={post.id} />
+            </>
+          ) : (
+            userData.isAdmin && (
+              <>
                 <Image
-                  width={200}
-                  height={200}
+                  width={35}
+                  height={35}
                   fluid={true}
-                  src={post.imageUrl}
-                  alt="post-img"
+                  onClick={() => setIsUpdated(!isUpdated)} src="./img/icons/edit.svg" alt="edit"
                 />
-              )}
-              {post.link && (
-                <iframe
-                  title="post-video"
-                  width="200"
-                  height="200"
-                  src={post.link}
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                ></iframe>
-              )}
-              {userData.id === post.User.id ? (
-                <div className="button-container">
-                  <div onClick={() => setIsUpdated(!isUpdated)}>
-                    <img src="./img/icons/edit.svg" alt="edit" />
-                  </div>
-                  <DeleteCard id={post.id} />
-                </div>
-              ) : (
-                userData.isAdmin && (
-                  <div className="button-container">
-                    <div onClick={() => setIsUpdated(!isUpdated)}>
-                      <img src="./img/icons/edit.svg" alt="edit" />
-                    </div>
-                    <DeleteCard id={post.id} />
-                  </div>
-                )
-              )}
-              <div className="card-footer">
-                <div className="comment-icon">
-                  <img
-                    onClick={() => setShowComments(!showComments)}
-                    src="./img/icons/message1.svg"
-                    alt='message'
-                  />
-                  <span>{post.Comments.length}</span>
-                </div>
-              </div>
-              {showComments && <CardComments post={post} />}
-            </div>
-          </div>
+                <DeleteCard id={post.id} />
+              </>
+            )
+          )}
+
+          {/* Bloc et icone commentaire */}
+          <Image
+            width={35}
+            height={35}
+            fluid={true}
+            onClick={() => setShowComments(!showComments)}
+            src="./img/icons/message1.svg"
+            alt='message'
+          />
+
+          <span>{post.Comments.length}</span>
+          {showComments && <CardComments post={post} />}
         </>
       )}
-    </div>
+    </Container>
   );
 };
 

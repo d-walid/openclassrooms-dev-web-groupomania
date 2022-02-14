@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-
 import { useDispatch, useSelector } from 'react-redux';
 import Image from 'react-bootstrap/Image';
 import { addComment, getPosts } from '../../actions/post.actions';
 import DeleteComment from './DeleteComment';
+import { Container, Form, FormControl, Card, Row, Col, Button } from 'react-bootstrap';
 
 const CardComments = ({ post }) => {
   const [message, setMessage] = useState('');
@@ -20,53 +20,57 @@ const CardComments = ({ post }) => {
     }
   }
 
-  const isUserAdmin = () => {
-    return userData.isAdmin === true;
-  }
-
   return (
-    <div className="comments-container">
+    <Container className='mt-3'>
+
       {post.Comments.map((comment) => {
         return (
+
           <div key={comment.id}>
-            <div className="left-part">
-              <Image
-                width={75}
-                height={75}
-                fluid={true}
-                src={comment.User.avatar}
-                alt="avatar"
-              />
-            </div>
-            <div className="right-part">
-              <div className="pseudo">
-                <h6>{comment.User.username}</h6>
-              </div>
-              <div className="comment">
-                <p>{comment.message}</p>
-                <DeleteComment comment={comment} postId={post.id} />
-              </div>
-            </div>
+
+            <Row>
+              <Col sm={1}>
+                <Image
+                  className='mt-3'
+                  roundedCircle
+                  width={75}
+                  height={75}
+                  fluid={true}
+                  src={comment.User.avatar}
+                  alt="avatar"
+                />
+              </Col>
+              <h6>{comment.User.username}</h6>
+              <span>{comment.message}</span>
+            </Row>
+            <DeleteComment comment={comment} postId={post.id} />
+
           </div>
         )
+
       })}
+
       {userData.id && (
-        <form
+        <Form
           action=''
           onSubmit={handleComment}
           className="comment-form"
         >
-          <input
-            type="text"
-            name="text"
+          <FormControl
+            className='w-50'
+            type='text'
+            name='text'
             value={message}
             onChange={(event) => setMessage(event.target.value)}
             placeholder="Ajouter un commentaire"
           />
-          <input type='submit' value='Envoyer' />
-        </form>
+          <Button type='submit' variant="outline-primary">
+            Ajouter un commentaire
+          </Button>
+        </Form>
       )}
-    </div>
+
+    </Container>
   )
 };
 

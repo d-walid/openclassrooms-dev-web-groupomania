@@ -26,8 +26,6 @@ const UpdateProfil = () => {
             <Card.Header as='h4' bg='light'>{userData.username}</Card.Header>
             <Card.Body>
               <Image
-                roundedCircle
-                fluid={true}
                 width={200}
                 height={200}
                 src={userData.avatar}
