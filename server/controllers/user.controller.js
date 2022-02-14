@@ -91,7 +91,6 @@ exports.deleteUser = async (req, res) => {
   try {
     const id = req.params.id;
     const userId = getUserIdFromToken(req);
-    console.log(id);
 
     const user = await db.User.findOne({ where: { id: id } });
 
@@ -104,8 +103,11 @@ exports.deleteUser = async (req, res) => {
         });
       });
     } else {
-      // delete user only if userId = user.id
-      if (userId === user.id) {
+
+      if (userId === user.id || user.isAdmin === true) {
+        console.log(userId);
+        console.log(user.id);
+        console.log(user);
         db.User.destroy({ where: { id: id } });
         res.status(200).json({
           message: 'User deleted successfully without his image profile'

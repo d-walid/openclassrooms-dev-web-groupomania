@@ -15,6 +15,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 // Actions
 import { getUsers } from './actions/users.actions';
 
+
 const store = createStore(
   rootReducer,
   composeWithDevTools(applyMiddleware(thunk))

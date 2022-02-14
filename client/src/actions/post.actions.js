@@ -41,7 +41,34 @@ export const getPosts = () => {
   };
 };
 
-export const likePost = (postId, userId) => {
+export const likePost = (id, userId) => {
+  const token = JSON.parse(localStorage.getItem('user')).token;
+  return dispatch => {
+    return axios({
+      method: 'post',
+      url: `${process.env.REACT_APP_API_URL}/api/post/${id}/like`,
+      data: {
+        userId: userId,
+        postId: id
+      },
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      }
+    })
+      .then(res => {
+        dispatch({
+          type: LIKE_POST,
+          payload: res.data
+        });
+
+      })
+      .catch(err => console.log(err));
+  };
+
+};
+
+export const unlikePost = (postId, userId) => {
   const token = JSON.parse(localStorage.getItem('user')).token;
   return dispatch => {
     return axios({
@@ -57,43 +84,9 @@ export const likePost = (postId, userId) => {
       }
     })
       .then(res => {
-        console.log(res);
-        dispatch({
-          type: LIKE_POST,
-          payload: {
-            User: res.data.User,
-            Post: res.data.Post
-          }
-        });
-      })
-      .catch(err => console.log(err));
-  };
-
-};
-
-export const unlikePost = (postId, userId) => {
-  const token = JSON.parse(localStorage.getItem('user')).token;
-  return dispatch => {
-    return axios({
-      method: 'post',
-      url: `${process.env.REACT_APP_API_URL}/api/post/${postId}/unlike`,
-      data: {
-        userId: userId,
-        postId: postId
-      },
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + token
-      }
-    })
-      .then(res => {
-        console.log(res)
         dispatch({
           type: UNLIKE_POST,
-          payload: {
-            User: res.data.User,
-            Post: res.data.Post
-          }
+          payload: res.data
         });
       })
       .catch(err => console.log(err));
@@ -114,7 +107,7 @@ export const getLikes = (postId) => {
       .then(res => {
         dispatch({
           type: GET_LIKES,
-          payload: res.data
+          payload: res.data.likes
         });
       })
       .catch(err => console.log(err));
@@ -162,14 +155,14 @@ export const deletePost = (postId) => {
 }
 
 
-export const addComment = (postId, commenterId, message, username) => {
+export const addComment = (postId, UserId, message, username) => {
   const token = JSON.parse(localStorage.getItem('user')).token;
   return (dispatch) => {
     return axios({
       method: 'post',
       url: `${process.env.REACT_APP_API_URL}/api/post/${postId}/comment`,
       data: {
-        commenterId,
+        UserId,
         message,
         username
       },
@@ -179,22 +172,25 @@ export const addComment = (postId, commenterId, message, username) => {
       }
     })
       .then(res => {
-        console.log(res);
-        dispatch({ type: ADD_COMMENT, payload: { postId, commenterId, message, username } });
+        console.log(res.data.Comment);
+        dispatch({ type: ADD_COMMENT, payload: res.data.Comment });
       })
       .catch(err => console.log(err.response));
   }
 }
 
 
-export const deleteComment = (postId, commentId) => {
+export const deleteComment = (id, UserId, PostId, username) => {
   const token = JSON.parse(localStorage.getItem('user')).token;
+
   return (dispatch) => {
     return axios({
       method: 'delete',
-      url: `${process.env.REACT_APP_API_URL}/api/post/${postId}/comment`,
+      url: `${process.env.REACT_APP_API_URL}/api/post/comment/${id}`,
       data: {
-        commentId
+        UserId,
+        PostId,
+        username
       },
       headers: {
         'Content-Type': 'application/json',
@@ -202,7 +198,7 @@ export const deleteComment = (postId, commentId) => {
       }
     })
       .then(res => {
-        dispatch({ type: DELETE_COMMENT, payload: { postId, commentId } });
+        dispatch({ type: DELETE_COMMENT, payload: { id } });
         console.log(res);
       })
       .catch(err => console.log(err.response));

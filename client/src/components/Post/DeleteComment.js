@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { deleteComment } from '../../actions/post.actions';
 import { UidContext } from '../Context/AppContext';
 
@@ -8,19 +8,20 @@ const DeleteComment = ({ comment, postId }) => {
   const [isAuthor, setIsAuthor] = useState(false);
   const uid = useContext(UidContext);
   const dispatch = useDispatch();
+  const userData = useSelector(state => state.userReducer);
 
-  const handleDelete = () => dispatch(deleteComment(postId, comment));
+  const handleDelete = () => {
+    dispatch(deleteComment(comment.id, uid, postId));
+  }
 
   useEffect(() => {
     const checkAuthor = () => {
-      if (uid === comment.UserId) {
+      if (userData.id === comment.UserId || userData.isAdmin === true) {
         setIsAuthor(true);
       }
     }
     checkAuthor();
-  }, [uid, comment.UserId]);
-
-
+  }, [])
 
   return (
     <div className="delete-comment">
@@ -28,6 +29,7 @@ const DeleteComment = ({ comment, postId }) => {
         <span onClick={() => {
           if (window.confirm('Voulez-vous supprimer ce commentaire ?')) {
             handleDelete();
+            window.location.reload();
           }
         }}>
           <img src="./img/icons/trash.svg" alt="trash" />

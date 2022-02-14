@@ -55,6 +55,6 @@ module.exports.requireAuth = (req, res, next) => {
       res.status(401).json({ message: error.stack });
     }
   } catch (error) {
-    res.status(401).json({ message: 'test' });
+    res.status(401).json({ message: 'Unauthorized' });
   }
 };

@@ -21,14 +21,15 @@ const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const fetchToken = async () => {
-      await axios({
+    const fetchToken = () => {
+      axios({
         method: 'get',
         url: `${process.env.REACT_APP_API_URL}/jwtid`,
         headers: authHeader(),
         withCredentials: true
       })
         .then(res => {
+
           setUid(res.data.user.id);
         })
         .catch(err => console.log('Aucun token trouvé.'));
@@ -36,7 +37,8 @@ const App = () => {
     fetchToken();
 
     if (uid) dispatch(getUser(uid));
-  }, [uid, dispatch]);
+  }, [dispatch, uid]);
+
 
   return (
     <UidContext.Provider value={uid}>

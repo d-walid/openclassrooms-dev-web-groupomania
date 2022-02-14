@@ -184,55 +184,74 @@ exports.deletePost = async (req, res) => {
 };
 
 
-exports.likePost = async (req, res) => {
+exports.likeUnlikePost = async (req, res) => {
   try {
     const userId = token.getUserIdFromToken(req);
     const post = await db.Post.findOne({ where: { id: req.params.id } });
     const user = await db.User.findOne({ where: { id: userId } });
     const like = await db.Like.findOne({
-      where: { UserId: userId, PostId: post.id }
+      where: { UserId: userId, PostId: post.id },
+      include: [{
+        model: db.Post,
+        attributes: ['id', 'message'],
+        include: [
+          {
+            model: db.User,
+            attributes: ['id', 'username']
+          },
+        ]
+      }]
     });
-    if (like === null) {
+
+    if (!like) {
       await db.Like.create({
         UserId: userId,
         PostId: post.id,
-        User: user
+        Post: {
+          id: post.id,
+          message: post.message,
+          User: {
+            id: post.UserId,
+            username: user.username
+          },
+          Like: {
+            UserId: userId,
+            PostId: post.id
+          }
+        }
       });
       res.status(200).json({
-        message: 'Post liked.',
-        User: user,
-        PostId: post.id
+        message: 'You liked the post',
+        Post: {
+          id: post.id,
+          message: post.message,
+          User: {
+            id: post.UserId,
+            username: user.username,
+          },
+          Like: {
+            UserId: userId,
+            PostId: post.id
+          }
+        }
       });
     } else {
-      res.status(400).json({ message: 'You already liked this post.' });
-    }
-  } catch (error) {
-    return res.status(500).send({ error: error.message });
-  }
-}
-
-
-exports.unlikePost = async (req, res) => {
-  try {
-    const userId = token.getUserIdFromToken(req);
-    const post = await db.Post.findOne({ where: { id: req.params.id } });
-    const user = await db.User.findOne({ where: { id: userId } });
-    const like = await db.Like.findOne({
-      where: { UserId: userId, PostId: post.id }
-    });
-
-    // remove the user from the post's likes
-    if (like) {
-      await db.Like.destroy({
-        where: { UserId: userId, PostId: post.id },
-      });
+      await db.Like.destroy({ where: { UserId: userId, PostId: post.id } });
       res.status(200).json({
-        message: 'You unliked this post.',
-        User: user,
-        PostId: post.id,
+        message: 'You unliked the post',
+        Post: {
+          id: post.id,
+          message: post.message,
+          User: {
+            id: post.UserId,
+            username: user.username,
+          },
+          Like: {
+            UserId: userId,
+            PostId: post.id
+          }
+        }
       });
-    } else {
-      res.status(400).json({ message: 'You did not like this post.' });
     }
   } catch (error) {
     return res.status(500).send({ error: error.message });
@@ -258,7 +277,11 @@ exports.getAllLikesFromUser = async (req, res) => {
         }
       ]
     });
-    res.status(200).json(likes);
+    res.status(200).json({
+      message: 'Likes from user',
+      likes: likes,
+
+    });
   } catch (error) {
     return res.status(500).send({ error: error.message });
   }

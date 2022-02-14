@@ -16,6 +16,7 @@ export const getUser = uid => {
         }
       })
       .then(res => {
+
         dispatch({
           type: GET_USER, payload: {
             ...res.data.user,

@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { isEmpty, timestampParser } from '../Utils/Utils';
-import { NavLink } from 'react-router-dom';
-import { Button, Card, Container, Image, Row, Col } from 'react-bootstrap';
+import { Button, Card, Container, Image, Row, Col, FormControl, Form } from 'react-bootstrap';
 import { addPost, getPosts } from '../../actions/post.actions';
-
 
 const NewPostForm = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -76,21 +74,23 @@ const NewPostForm = () => {
       ) : (
         <>
           <Row>
-            <Col>
-              <Card>
-                <Image
-                  roundedCircle
-                  width={100}
-                  height={100}
-                  fluid={true}
-                  src={userData.avatar}
-                  alt="avatar-post-author"
-                />
-              </Card>
+            <Col sm={2}>
+              <Image
+                className='mb-3'
+                roundedCircle
+                width={100}
+                height={100}
+                fluid={true}
+                src={userData.avatar}
+                alt="avatar-post-author"
+              />
             </Col>
 
-            <Col sm={11}>
-              <textarea
+            <Col sm={4}>
+              <FormControl
+                as="textarea"
+                size="md"
+                rows="4"
                 name='message'
                 id='message'
                 placeholder='Dites quelque chose...'
@@ -99,57 +99,50 @@ const NewPostForm = () => {
               />
             </Col>
 
-
             {message || postPicture || link.length > 20 ? (
-              <div>
-                <div className="card-left">
-                  <Image
-                    width={100}
-                    height={100}
-                    fluid={true}
-                    src={userData.avatar}
-                    alt="avatar"
-                  />
-                </div>
-                <div className="card-right">
-                  <div className="card-header">
-                    <div className="pseudo">
-                      <h3>{userData.username}</h3>
-                    </div>
-                    <span>{timestampParser(Date.now())}</span>
-                  </div>
-                  <div className='content'>
-                    <p>{message}</p>
-                    <Image src={postPicture} alt='' />
-                    {link && (
-                      <iframe
-                        title='link'
-                        width="200"
-                        height="200"
-                        src={link}
-                        frameBorder="0"
-                        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                      ></iframe>
-                    )}
-                  </div>
-                </div>
-              </div>
+              <Container fluid>
+                <Row>
+                  <Col sm={4}>
+                    <Card>
+                      <Card.Header>
+                        <h4>{userData.username}</h4>
+                        <span>{timestampParser(Date.now())}</span>
+                      </Card.Header>
+                      <Card.Body>
+                        <Card.Text>
+                          {message}
+                        </Card.Text>
+                      </Card.Body>
+                    </Card>
+                  </Col>
+                </Row>
 
+                <Image src={postPicture} alt='' />
+                {link && (
+                  <iframe
+                    title='link'
+                    width="200"
+                    height="200"
+                    src={link}
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  ></iframe>
+                )}
+              </Container>
             ) : null}
 
             <div className="footer-form">
               <div className="icon">
                 {isEmpty(link) && (
                   <>
-                    <img src="./img/icons/picture.svg" alt="post-form" />
-                    <input
-                      type="file"
-                      id="file"
-                      name="file"
-                      accept='.jpg, .jpeg, .png, .gif'
-                      onChange={(event) => handlePicture(event)}
-                    />
+                    <Form.Group controlId="formFile" className="mt-3 mb-3">
+                      <Form.Control
+                        className="w-50"
+                        type="file"
+                        onChange={handlePicture}
+                      />
+                    </Form.Group>
                   </>
                 )}
                 {link && (
@@ -168,9 +161,10 @@ const NewPostForm = () => {
           </Row>
         </>
 
-      )}
+      )
+      }
 
-    </Container>
+    </Container >
   )
 };
 

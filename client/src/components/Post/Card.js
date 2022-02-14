@@ -1,12 +1,10 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { dateParser, isEmpty } from '../Utils/Utils';
 import Image from 'react-bootstrap/Image';
-import LikeButton from './LikeButton';
-import { getLikes, updatePost } from '../../actions/post.actions';
+import { updatePost } from '../../actions/post.actions';
 import DeleteCard from './DeleteCard';
 import CardComments from './CardComments';
-import { UidContext } from '../Context/AppContext';
 
 const Card = ({ post }) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -14,7 +12,6 @@ const Card = ({ post }) => {
   const [textUpdate, setTextUpdate] = useState(null);
   const [showComments, setShowComments] = useState(false);
   const postsData = useSelector(state => state.postReducer);
-  const usersData = useSelector(state => state.usersReducer);
   const userData = useSelector(state => state.userReducer);
   const dispatch = useDispatch();
 
@@ -25,12 +22,6 @@ const Card = ({ post }) => {
     }
     setIsUpdated(false);
   }
-
-  // get the likes of the post
-  useEffect(() => {
-    dispatch(getLikes(post.id));
-  }, [dispatch, post.id]);
-
 
   useEffect(() => {
     !isEmpty(postsData[0]) && setIsLoading(false);
@@ -99,6 +90,7 @@ const Card = ({ post }) => {
               )}
               {post.link && (
                 <iframe
+                  title="post-video"
                   width="200"
                   height="200"
                   src={post.link}
@@ -128,10 +120,11 @@ const Card = ({ post }) => {
                 <div className="comment-icon">
                   <img
                     onClick={() => setShowComments(!showComments)}
-                    src="./img/icons/message1.svg" />
+                    src="./img/icons/message1.svg"
+                    alt='message'
+                  />
                   <span>{post.Comments.length}</span>
                 </div>
-                <LikeButton post={post} />
               </div>
               {showComments && <CardComments post={post} />}
             </div>
