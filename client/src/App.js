@@ -1,17 +1,17 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 
-// Redux
-import { useDispatch } from 'react-redux';
+// Actions
+import { getUser } from './actions/user.actions';
 
 // Context
 import { UidContext } from './components/Context/AppContext';
 
+// Redux
+import { useDispatch } from 'react-redux';
+
 // Routes
 import Routes from './components/Routes';
-
-// Actions
-import { getUser } from './actions/user.actions';
 
 // Services
 import { authHeader } from './services/auth';
@@ -29,7 +29,6 @@ const App = () => {
         withCredentials: true
       })
         .then(res => {
-
           setUid(res.data.user.id);
         })
         .catch(err => console.log('Aucun token trouvé.'));
@@ -38,7 +37,6 @@ const App = () => {
 
     if (uid) dispatch(getUser(uid));
   }, [dispatch, uid]);
-
 
   return (
     <UidContext.Provider value={uid}>
