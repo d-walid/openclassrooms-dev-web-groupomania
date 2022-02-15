@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+
+// Styles
 import { Button, Form } from 'react-bootstrap';
 
 const SignInForm = () => {
@@ -56,6 +58,7 @@ const SignInForm = () => {
       </Form.Group>
 
       <div className="email error"></div>
+
       <Button variant="primary" type="submit">
         Connexion
       </Button>

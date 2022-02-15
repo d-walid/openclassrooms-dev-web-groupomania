@@ -17,7 +17,6 @@ const SignUpForm = () => {
     event.preventDefault();
 
     const inputError = document.querySelector('.input.error');
-
     await axios({
       method: 'post',
       url: `${process.env.REACT_APP_API_URL}/api/user/register`,
@@ -30,7 +29,6 @@ const SignUpForm = () => {
     })
       .then(res => {
         if (res.data.error) {
-          console.log(res.data.error);
           inputError.textContent = res.data.error;
         } else {
           setFormSubmit(true);
@@ -44,12 +42,14 @@ const SignUpForm = () => {
 
   return (
     <>
+
       {formSubmit ? (
         <>
           <h4 className='mt-3'>Bienvenue chez Groupomania !</h4>
           <SignInForm />
         </>
       ) : (
+
         <Form onSubmit={handleRegister}>
           <Form.Group className='mb-3' controlId='formBasicUsername'>
             <Form.Label>Prénom et nom</Form.Label>
@@ -82,10 +82,12 @@ const SignUpForm = () => {
           </Form.Group>
 
           <div className='input error'></div>
+
           <Button variant='primary' type='submit'>
             Inscription
           </Button>
         </Form>
+
       )}
     </>
   );

@@ -3,7 +3,7 @@ import axios from 'axios';
 import cookie from 'js-cookie';
 
 // Styles
-import { Button, Nav } from 'react-bootstrap';
+import { Nav } from 'react-bootstrap';
 
 const Logout = () => {
   const removeCookie = key => {
@@ -23,6 +23,7 @@ const Logout = () => {
 
     window.location = '/';
   };
+
   return (
     <>
       <Nav>

@@ -1,10 +1,11 @@
-import { Button } from 'react-bootstrap';
 import React, { useState } from 'react';
+
+// Components
 import SignInForm from './SignInForm';
 import SignUpForm from './SignUpForm';
 
-// Bootstrap
-import { Container } from 'react-bootstrap';
+// Styles
+import { Container, Button } from 'react-bootstrap';
 
 const Auth = props => {
   const [signUpModal, setSignUpModal] = useState(props.signup);
@@ -22,6 +23,7 @@ const Auth = props => {
 
   return (
     <Container fluid='sm'>
+
       <Button
         className='mt-3 mb-3'
         variant='primary'
@@ -30,11 +32,14 @@ const Auth = props => {
       >
         Inscription
       </Button>
+
       <Button variant='primary' id='login' onClick={handleModals}>
         Connexion
       </Button>
+
       {signUpModal && <SignUpForm />}
       {signInModal && <SignInForm />}
+
     </Container>
   );
 };
