@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config({ path: './config/.env' });
 
 function tokenGeneration(user) {
+  // Génération de token.
   const id = user.id;
   const expiresIn = '24h';
   const payload = { sub: id, iat: Date.now() };
@@ -15,7 +16,7 @@ function tokenGeneration(user) {
 }
 
 function getUserIdFromToken(req) {
-  // Function who verify the userId from the token
+  // Fonction qui récupère l'id de l'utilisateur par rapport au token.
   const token = req.headers.authorization.split(' ')[1];
   const decodedToken = jwt.verify(token, process.env.JWT_SECRET_TOKEN);
   const userId = decodedToken.sub;

@@ -23,7 +23,6 @@ const SignInForm = () => {
     })
       .then(res => {
         if (res.data.error) {
-          console.log(res.data.error);
           emailError.textContent = res.data.error;
         } else {
           window.location = '/';
@@ -59,10 +58,9 @@ const SignInForm = () => {
         />
       </Form.Group>
 
-      <Alert
-        variant='danger'
-        className='email error'
-      ></Alert>
+
+      <div className='email error mb-3'></div>
+
 
       <Button variant="primary" type="submit">
         Connexion

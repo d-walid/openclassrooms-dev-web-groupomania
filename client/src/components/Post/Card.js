@@ -71,7 +71,7 @@ const Card = ({ post }) => {
 
           {/* Bloc Header & Date du post */}
           <Row>
-            <Col sm={4}>
+            <Col>
               <CardBootstrap>
                 <CardBootstrap.Header>
                   {!isEmpty(postsData[0]) &&
@@ -93,14 +93,12 @@ const Card = ({ post }) => {
             <>
               {/* Bloc du post */}
               <Row>
-                <Col sm={4}>
-                  <CardBootstrap className='mb-2'>
-                    <CardBootstrap.Body>
-                      <CardBootstrap.Text>
-                        {post.message}
-                      </CardBootstrap.Text>
-                    </CardBootstrap.Body>
-                  </CardBootstrap>
+                <Col>
+                  <div
+                    className='mb-4'
+                    style={{ wordBreak: 'break-all' }}>
+                    {post.message}
+                  </div>
                 </Col>
               </Row>
             </>

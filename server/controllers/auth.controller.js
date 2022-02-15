@@ -75,7 +75,7 @@ exports.signUp = async (req, res) => {
       });
     }
   } catch (error) {
-    res.status(500).send({
+    res.status(403).send({
       error: error.message
     });
   }
@@ -112,7 +112,9 @@ exports.login = async (req, res) => {
       }
     }
   } catch (error) {
-    console.log(error.message);
+    res.status(403).send({
+      error: 'Vous devez rentrer un email et un mot de passe.'
+    });
   }
 };
 

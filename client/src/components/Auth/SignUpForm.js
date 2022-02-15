@@ -81,10 +81,7 @@ const SignUpForm = () => {
             />
           </Form.Group>
 
-          <Alert
-            variant='danger'
-            className='input error'
-          ></Alert>
+          <div className='input error mb-3'></div>
 
           <Button variant='primary' type='submit'>
             Inscription

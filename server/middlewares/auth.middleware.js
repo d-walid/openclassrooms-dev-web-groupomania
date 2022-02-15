@@ -29,6 +29,7 @@ module.exports.checkUser = (req, res, next) => {
   }
 };
 
+
 module.exports.requireAuth = (req, res, next) => {
   try {
     const token = req.cookies.jwt;
@@ -39,7 +40,7 @@ module.exports.requireAuth = (req, res, next) => {
         process.env.JWT_SECRET_TOKEN,
         async (err, decodedToken) => {
           if (err) {
-            res.status(401).json({ message: 'Unauthorized' });
+            res.status(401).json({ message: 'Non autorisé.' });
           } else {
             let user = await db.User.findOne({
               where: {
@@ -55,6 +56,6 @@ module.exports.requireAuth = (req, res, next) => {
       res.status(401).json({ message: error.stack });
     }
   } catch (error) {
-    res.status(401).json({ message: 'Unauthorized' });
+    res.status(401).json({ message: 'Non autorisé.' });
   }
 };

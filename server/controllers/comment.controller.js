@@ -29,7 +29,7 @@ exports.createComment = async (req, res) => {
       })
     }
   } catch (error) {
-    res.status(500).send({ error: error.message })
+    res.status(403).send({ error: error.message })
   }
 }
 
@@ -59,10 +59,10 @@ exports.deleteComment = async (req, res) => {
       })
 
     } else {
-      res.status(401).send({ error: 'Vous n\'avez pas le droit de supprimer ce commentaire.' })
+      res.status(401).send({ error: "Vous n'avez pas le droit de supprimer ce commentaire." })
     }
   } catch (error) {
-    res.status(500).send({ error: 'Une erreur est survenue.' })
+    res.status(403).send({ error: error.message })
   }
 }
 
@@ -84,6 +84,6 @@ exports.getCommentsFromPost = async (req, res) => {
       comments
     })
   } catch (error) {
-    res.status(500).send({ error: 'Une erreur est survenue.' })
+    res.status(403).send({ error: error.message })
   }
 }

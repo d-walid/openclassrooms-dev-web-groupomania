@@ -156,7 +156,11 @@ const NewPostForm = () => {
                 </>
               )}
               {link && (
-                <Button className='mb-2' onClick={() => setLink('')}>Supprimer la vidéo</Button>
+                <Button
+                  className='mb-2'
+                  onClick={() => setLink('')}>
+                  Supprimer la vidéo
+                </Button>
               )}
             </div>
 

@@ -312,7 +312,7 @@ exports.getAllLikesFromUser = async (req, res) => {
 
     });
   } catch (error) {
-    return res.status(500).send({ error: error.message });
+    return res.status(403).send({ error: error.message });
   }
 }
 

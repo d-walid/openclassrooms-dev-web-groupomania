@@ -33,6 +33,7 @@ export const getUser = uid => {
 // Mise à jour d'une image de profil.
 export const uploadPicture = (data, id) => {
   const token = JSON.parse(localStorage.getItem('user')).token;
+
   return dispatch => {
     return axios
       .put(`${process.env.REACT_APP_API_URL}/api/user/upload/${id}`, data, {
@@ -83,6 +84,7 @@ export const updateBio = (id, biography) => {
 // Suppression de l'utilisateur.
 export const deleteUser = id => {
   const token = JSON.parse(localStorage.getItem('user')).token;
+
   return dispatch => {
     return axios({
       method: 'delete',

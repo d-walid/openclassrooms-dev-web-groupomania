@@ -39,8 +39,8 @@ const CardComments = ({ post }) => {
                 <Image
                   className='mt-3'
                   roundedCircle
-                  width={75}
-                  height={75}
+                  width={30}
+                  height={30}
                   fluid={true}
                   src={comment.User.avatar}
                   alt="avatar"

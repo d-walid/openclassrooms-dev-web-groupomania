@@ -85,7 +85,7 @@ exports.updateUser = async (req, res) => {
       res.status(400).json({ error: "Vous n'êtes pas autorisé à effectuer cette action." });
     }
   } catch (error) {
-    res.status(500).send({ error: error.stack });
+    res.status(403).send({ error: error.message });
   }
 };
 
@@ -118,6 +118,6 @@ exports.deleteUser = async (req, res) => {
       }
     }
   } catch (error) {
-    res.status(500).send({ error: 'Une erreur est survenue.' });
+    res.status(403).send({ error: error.message });
   }
 };

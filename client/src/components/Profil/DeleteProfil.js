@@ -30,6 +30,7 @@ const DeleteProfil = () => {
     >
       Supprimer son profil
     </Button>
+
   )
 }
 
