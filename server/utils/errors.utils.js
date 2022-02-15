@@ -1,5 +1,3 @@
-module.exports.signUpErrors = error => {};
-
 module.exports.signInErrors = error => {
   let errors = { email: '', password: '' };
 

@@ -13,15 +13,16 @@ app.use(
   })
 );
 
-// Requests into JSON Object
+// Requêtes en JSON.
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-// Routes déclaration
+// Déclaration des routes.
 const userRoutes = require('./routes/user.routes');
 const postRoutes = require('./routes/post.routes');
 
+// Middlewares
 const { checkUser, requireAuth } = require('./middlewares/auth.middleware');
 
 // Routes API
