@@ -5,7 +5,7 @@ import axios from 'axios';
 import SignInForm from './SignInForm';
 
 // Styles
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, Alert } from 'react-bootstrap';
 
 const SignUpForm = () => {
   const [formSubmit, setFormSubmit] = useState(false);
@@ -81,7 +81,10 @@ const SignUpForm = () => {
             />
           </Form.Group>
 
-          <div className='input error'></div>
+          <Alert
+            variant='danger'
+            className='input error'
+          ></Alert>
 
           <Button variant='primary' type='submit'>
             Inscription

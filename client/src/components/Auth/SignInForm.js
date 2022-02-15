@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 // Styles
-import { Button, Form } from 'react-bootstrap';
+import { Alert, Button, Form } from 'react-bootstrap';
 
 const SignInForm = () => {
   const [email, setEmail] = useState('');
@@ -31,7 +31,8 @@ const SignInForm = () => {
         }
       })
       .catch(err => {
-        console.log(err);
+        if (err.response.status === 400)
+          emailError.textContent = err.response.data.error;
       });
   };
 
@@ -58,7 +59,10 @@ const SignInForm = () => {
         />
       </Form.Group>
 
-      <div className="email error"></div>
+      <Alert
+        variant='danger'
+        className='email error'
+      ></Alert>
 
       <Button variant="primary" type="submit">
         Connexion
