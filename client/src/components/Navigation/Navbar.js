@@ -5,7 +5,7 @@ import { NavLink } from 'react-router-dom';
 import { UidContext } from '../Context/AppContext';
 
 // Styles
-import { Nav } from 'react-bootstrap';
+import { Image, Nav } from 'react-bootstrap';
 
 // Components
 import Logout from '../Auth/Logout';
@@ -20,6 +20,14 @@ const Navbar = () => {
 
   return (
     <Nav className='justify-content-end'>
+      <Nav.Item>
+        <Image
+          fluid
+          src='./img/icons-groupomania/logo-groupomania-left-red.png'
+          width={175}
+          alt='Groupomania logo'
+        />
+      </Nav.Item>
       <Nav.Item>
         <NavLink to='/' className='nav-link'>
           <h6>Accueil</h6>

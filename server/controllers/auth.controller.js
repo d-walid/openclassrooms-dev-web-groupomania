@@ -1,9 +1,9 @@
+require('dotenv').config({ path: './config/.env' });
 const bcrypt = require('bcrypt');
 const token = require('../middlewares/token.middleware');
-require('dotenv').config({ path: './config/.env' });
 const db = require('../models/index');
 
-// Create a user
+// Créer un compte
 exports.signUp = async (req, res) => {
   let username = req.body.username;
   let email = req.body.email;
@@ -56,6 +56,7 @@ exports.signUp = async (req, res) => {
           .json({ error: 'Cet email ou prénom/nom est déjà pris.' });
       }
     } else {
+      // Création du compte en hashant le mot de passe.
       const hash = await bcrypt.hash(req.body.password, 10);
       const newUser = await db.User.create({
         username: req.body.username,
@@ -80,7 +81,7 @@ exports.signUp = async (req, res) => {
   }
 };
 
-// Login a user
+// Se connecter à un compte
 exports.login = async (req, res) => {
   try {
     const user = await db.User.findOne({
@@ -90,8 +91,8 @@ exports.login = async (req, res) => {
     if (user === null) {
       return res.status(403).send({ error: 'Connexion raté.' }); // Si l'utilisateur n'existe pas, renvoie une erreur.
     } else {
-      const hash = await bcrypt.compare(req.body.password, user.password);
 
+      const hash = await bcrypt.compare(req.body.password, user.password);
       if (!hash) {
         return res
           .status(200)

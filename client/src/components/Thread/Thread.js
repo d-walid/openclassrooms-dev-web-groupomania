@@ -18,6 +18,7 @@ const Thread = () => {
 
   return (
     <div className="mt-5">
+
       {!isEmpty(posts[0]) &&
         posts.map(post => {
           return <Card post={post} key={post.id} />;

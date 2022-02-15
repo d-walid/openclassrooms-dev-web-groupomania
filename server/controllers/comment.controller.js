@@ -2,6 +2,7 @@ const db = require('../models/index');
 const token = require('../middlewares/token.middleware');
 
 
+// Créer un commentaire dans une publication
 exports.createComment = async (req, res) => {
   try {
     const message = req.body.message;
@@ -14,6 +15,7 @@ exports.createComment = async (req, res) => {
       const post = await db.Post.findOne({ where: { id: req.params.id } });
       const user = await db.User.findOne({ where: { id: userId } });
 
+      // Création du commentaire avec l'id du post, l'id de l'utilisateur, son message et son pseudo.
       const comment = await db.Comment.create({
         message,
         UserId: userId,
@@ -31,7 +33,7 @@ exports.createComment = async (req, res) => {
   }
 }
 
-
+// Suppression de commentaires
 exports.deleteComment = async (req, res) => {
   try {
     const userId = token.getUserIdFromToken(req);
@@ -42,8 +44,9 @@ exports.deleteComment = async (req, res) => {
         UserId: userId,
       },
     });
-    const isAdmin = await db.User.findOne({ where: { id: userId } });
 
+    // Suppression du commentaire si l'utilisateur est l'auteur du commentaire ou si il est admin.
+    const isAdmin = await db.User.findOne({ where: { id: userId } });
     if (comment.UserId === userId || isAdmin.isAdmin === true) {
       await db.Comment.destroy({
         where: {
@@ -63,7 +66,7 @@ exports.deleteComment = async (req, res) => {
   }
 }
 
-
+// Récupération de tous les commentaires d'une publication
 exports.getCommentsFromPost = async (req, res) => {
   try {
     const userId = token.getUserIdFromToken(req);
@@ -77,7 +80,6 @@ exports.getCommentsFromPost = async (req, res) => {
         attributes: ['id', 'username']
       }]
     });
-
     res.status(200).json({
       comments
     })
