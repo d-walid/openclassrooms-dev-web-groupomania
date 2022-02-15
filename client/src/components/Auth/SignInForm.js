@@ -36,6 +36,7 @@ const SignInForm = () => {
   };
 
   return (
+
     <Form onSubmit={handleLogin}>
       <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Email</Form.Label>
@@ -63,6 +64,7 @@ const SignInForm = () => {
         Connexion
       </Button>
     </Form>
+
   );
 };
 

@@ -28,6 +28,7 @@ const CardComments = ({ post }) => {
   }
 
   return (
+
     <Container className='mt-3'>
 
       {post.Comments.map((comment) => {
@@ -76,6 +77,7 @@ const CardComments = ({ post }) => {
       )}
 
     </Container>
+
   )
 };
 

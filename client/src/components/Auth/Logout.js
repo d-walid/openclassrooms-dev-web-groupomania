@@ -25,6 +25,7 @@ const Logout = () => {
   };
 
   return (
+
     <>
       <Nav>
         <Nav.Item>
@@ -34,6 +35,7 @@ const Logout = () => {
         </Nav.Item>
       </Nav>
     </>
+
   );
 };
 

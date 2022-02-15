@@ -1,7 +1,14 @@
 import React from 'react'
-import { Button } from 'react-bootstrap'
-import { useDispatch, useSelector } from 'react-redux'
+
+// Actions
 import { deleteUser } from '../../actions/user.actions'
+
+// Redux 
+import { useDispatch, useSelector } from 'react-redux'
+
+// Styles
+import { Button } from 'react-bootstrap'
+
 
 const DeleteProfil = () => {
   const userData = useSelector(state => state.userReducer)
@@ -10,6 +17,7 @@ const DeleteProfil = () => {
   const handleDelete = () => dispatch(deleteUser(userData.id))
 
   return (
+
     <Button
       className='mt-2 mb-2'
       variant='danger'

@@ -19,12 +19,11 @@ const UploadImage = () => {
 
     const data = new FormData();
     data.append('file', file);
-
     dispatch(uploadPicture(data, userData.id));
-    console.log(userData);
   };
 
   return (
+
     <Form
       className='mt-2'
       encType='multipart/form-data'
@@ -39,8 +38,16 @@ const UploadImage = () => {
           onChange={event => setFile(event.target.files[0])}
         />
       </Form.Group>
-      <Button className='mt-2' variant='primary' type='submit'>Envoyer</Button>
+
+      <Button
+        className='mt-2'
+        variant='primary'
+        type='submit'>
+        Envoyer
+      </Button>
+
     </Form>
+
   );
 };
 

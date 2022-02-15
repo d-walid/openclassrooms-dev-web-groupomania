@@ -1,14 +1,26 @@
 import React, { useState } from 'react';
-import { Card, Container, Image, Row, Col, Button } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
+
+// Actions 
 import { updateBio } from '../../actions/user.actions';
-import { dateParser } from '../Utils/Utils';
+
+// Components
 import DeleteProfil from './DeleteProfil';
 import UploadImage from './UploadImage';
+
+// Redux 
+import { useDispatch, useSelector } from 'react-redux';
+
+// Styles 
+import { Card, Container, Image, Row, Col, Button } from 'react-bootstrap';
+
+// Utils
+import { dateParser } from '../Utils/Utils';
+
 
 const UpdateProfil = () => {
   const [biography, setBiography] = useState('');
   const [updateForm, setUpdateForm] = useState(false);
+
   const userData = useSelector(state => state.userReducer);
   const dispatch = useDispatch();
 
@@ -18,6 +30,7 @@ const UpdateProfil = () => {
   };
 
   return (
+
     <Container>
       <Row>
 

@@ -40,6 +40,7 @@ const Card = ({ post }) => {
 
 
   return (
+
     <Container className='mb-5' key={post.id}>
 
       {isLoading ? (
@@ -192,6 +193,7 @@ const Card = ({ post }) => {
       )}
 
     </Container>
+
   );
 };
 

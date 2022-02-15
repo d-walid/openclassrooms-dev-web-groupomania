@@ -41,8 +41,8 @@ const SignUpForm = () => {
   };
 
   return (
-    <>
 
+    <>
       {formSubmit ? (
         <>
           <h4 className='mt-3'>Bienvenue chez Groupomania !</h4>
@@ -90,6 +90,7 @@ const SignUpForm = () => {
 
       )}
     </>
+
   );
 };
 
