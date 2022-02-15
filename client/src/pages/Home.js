@@ -1,15 +1,21 @@
 import React, { useContext } from 'react';
-import { Container, Image } from 'react-bootstrap';
+
+// Components
 import Auth from '../components/Auth';
-import { UidContext } from '../components/Context/AppContext';
 import NewPostForm from '../components/Post/NewPostForm';
+
+// Context
+import { UidContext } from '../components/Context/AppContext';
 
 // Navigation
 import Thread from '../components/Thread/Thread';
 
+// Styles
+import { Container } from 'react-bootstrap';
 
 const Home = () => {
   const uid = useContext(UidContext);
+
   return (
     <>
       <Container fluid>

@@ -1,12 +1,14 @@
 import React, { useContext } from 'react';
-import { Container } from 'react-bootstrap';
 
 // Components
 import Auth from '../components/Auth';
+import UpdateProfil from '../components/Profil/UpdateProfil';
 
 // Context
 import { UidContext } from '../components/Context/AppContext';
-import UpdateProfil from '../components/Profil/UpdateProfil';
+
+// Styles
+import { Container } from 'react-bootstrap';
 
 const Profil = () => {
   const uid = useContext(UidContext);
