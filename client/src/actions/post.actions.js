@@ -12,6 +12,7 @@ export const ADD_COMMENT = 'ADD_COMMENT';
 export const DELETE_COMMENT = 'DELETE_COMMENT';
 
 
+// Création d'une publication.
 export const addPost = (data) => {
   const token = JSON.parse(localStorage.getItem('user')).token;
   return (dispatch) => {
@@ -27,6 +28,8 @@ export const addPost = (data) => {
   }
 }
 
+
+// Récupération des publications.
 export const getPosts = () => {
   return dispatch => {
     return axios
@@ -41,6 +44,8 @@ export const getPosts = () => {
   };
 };
 
+
+// Like d'une publication.
 export const likePost = (id, userId) => {
   const token = JSON.parse(localStorage.getItem('user')).token;
   return dispatch => {
@@ -61,13 +66,13 @@ export const likePost = (id, userId) => {
           type: LIKE_POST,
           payload: res.data
         });
-
       })
       .catch(err => console.log(err));
   };
-
 };
 
+
+// Unlike d'une publication.
 export const unlikePost = (postId, userId) => {
   const token = JSON.parse(localStorage.getItem('user')).token;
   return dispatch => {
@@ -94,6 +99,7 @@ export const unlikePost = (postId, userId) => {
 };
 
 
+// Récupération des likes d'une publication.
 export const getLikes = (postId) => {
   const token = JSON.parse(localStorage.getItem('user')).token;
   return dispatch => {
@@ -114,6 +120,8 @@ export const getLikes = (postId) => {
   };
 }
 
+
+// Mise à jour d'une publication.
 export const updatePost = (postId, message) => {
   const token = JSON.parse(localStorage.getItem('user')).token;
   return (dispatch) => {
@@ -135,6 +143,7 @@ export const updatePost = (postId, message) => {
 }
 
 
+// Suppression d'une publication.
 export const deletePost = (postId) => {
   const token = JSON.parse(localStorage.getItem('user')).token;
   return (dispatch) => {
@@ -155,6 +164,7 @@ export const deletePost = (postId) => {
 }
 
 
+// Création d'un commentaire.
 export const addComment = (postId, UserId, message, username) => {
   const token = JSON.parse(localStorage.getItem('user')).token;
   return (dispatch) => {
@@ -180,6 +190,7 @@ export const addComment = (postId, UserId, message, username) => {
 }
 
 
+// Suppression d'un commentaire.
 export const deleteComment = (id, UserId, PostId, username) => {
   const token = JSON.parse(localStorage.getItem('user')).token;
 

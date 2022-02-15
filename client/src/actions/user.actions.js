@@ -5,6 +5,8 @@ export const UPLOAD_PICTURE = 'UPLOAD_PICTURE';
 export const UPDATE_BIO = 'UPDATE_BIO';
 export const DELETE_USER = 'DELETE_USER';
 
+
+// Récupération des informations d'un utilisateur et de ses likes.
 export const getUser = uid => {
   const token = JSON.parse(localStorage.getItem('user')).token;
   return dispatch => {
@@ -16,7 +18,6 @@ export const getUser = uid => {
         }
       })
       .then(res => {
-
         dispatch({
           type: GET_USER, payload: {
             ...res.data.user,
@@ -28,6 +29,8 @@ export const getUser = uid => {
   };
 };
 
+
+// Mise à jour d'une image de profil.
 export const uploadPicture = (data, id) => {
   const token = JSON.parse(localStorage.getItem('user')).token;
   return dispatch => {
@@ -54,6 +57,8 @@ export const uploadPicture = (data, id) => {
   };
 };
 
+
+// Mise à jour de la biographie d'un utilisateur.
 export const updateBio = (id, biography) => {
   const token = JSON.parse(localStorage.getItem('user')).token;
 
@@ -75,6 +80,7 @@ export const updateBio = (id, biography) => {
 };
 
 
+// Suppression de l'utilisateur.
 export const deleteUser = id => {
   const token = JSON.parse(localStorage.getItem('user')).token;
   return dispatch => {
