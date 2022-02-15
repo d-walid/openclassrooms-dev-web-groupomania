@@ -1,12 +1,21 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Image } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
+
+// Actions
 import { deleteComment } from '../../actions/post.actions';
+
+// Context
 import { UidContext } from '../Context/AppContext';
+
+// Redux 
+import { useDispatch, useSelector } from 'react-redux';
+
+// Styles 
+import { Image } from 'react-bootstrap';
 
 
 const DeleteComment = ({ comment, postId }) => {
   const [isAuthor, setIsAuthor] = useState(false);
+
   const uid = useContext(UidContext);
   const dispatch = useDispatch();
   const userData = useSelector(state => state.userReducer);
@@ -25,6 +34,7 @@ const DeleteComment = ({ comment, postId }) => {
   }, [])
 
   return (
+
     <div className="delete-comment mb-3">
       {isAuthor && (
         <span onClick={() => {
@@ -32,14 +42,19 @@ const DeleteComment = ({ comment, postId }) => {
             handleDelete();
             window.location.reload();
           }
-        }}>
+        }}
+        >
+
           <Image
             width={35}
             height={35}
             fluid={true}
-            src="./img/icons/trash.svg" alt="trash" />
+            src="./img/icons/trash.svg" alt="trash"
+          />
+
         </span>
       )}
+
     </div>
   )
 };

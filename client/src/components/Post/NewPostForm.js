@@ -1,8 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { isEmpty, timestampParser } from '../Utils/Utils';
-import { Button, Card, Container, Image, Row, Col, FormControl, Form } from 'react-bootstrap';
+
+// Actions
 import { addPost, getPosts } from '../../actions/post.actions';
+
+// Redux 
+import { useSelector, useDispatch } from 'react-redux';
+
+// Styles
+import { Button, Card, Container, Image, Row, Col, FormControl, Form } from 'react-bootstrap';
+
+// Utils 
+import { isEmpty, timestampParser } from '../Utils/Utils';
+
 
 const NewPostForm = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -67,7 +76,9 @@ const NewPostForm = () => {
   useEffect(() => {
     if (!isEmpty(userData)) setIsLoading(false);
   }, [userData])
+
   return (
+
     <Container>
       {isLoading ? (
         <h6>Chargement</h6>
@@ -132,7 +143,6 @@ const NewPostForm = () => {
               </Container>
             ) : null}
 
-
             <div className="icon">
               {isEmpty(link) && (
                 <>
@@ -151,22 +161,17 @@ const NewPostForm = () => {
             </div>
 
             <div className='footer-post'>
-
               {message || postPicture || link.length > 20 ? (
                 <Button variant='secondary' onClick={cancelPost}>Annuler</Button>
               ) : null}
               <Button variant='primary' onClick={handlePost}>Envoyer</Button>
             </div>
 
-
-
           </Row>
         </>
 
-      )
-      }
-
-    </Container >
+      )}
+    </Container>
   )
 };
 

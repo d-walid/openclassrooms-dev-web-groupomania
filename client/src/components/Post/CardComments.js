@@ -1,9 +1,16 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import Image from 'react-bootstrap/Image';
+
+// Actions
 import { addComment, getPosts } from '../../actions/post.actions';
+
+// Components
 import DeleteComment from './DeleteComment';
-import { Container, Form, FormControl, Card, Row, Col, Button } from 'react-bootstrap';
+
+// Redux
+import { useDispatch, useSelector } from 'react-redux';
+
+// Styles
+import { Container, Form, FormControl, Row, Col, Button, Image } from 'react-bootstrap';
 
 const CardComments = ({ post }) => {
   const [message, setMessage] = useState('');
@@ -25,9 +32,7 @@ const CardComments = ({ post }) => {
 
       {post.Comments.map((comment) => {
         return (
-
           <div key={comment.id}>
-
             <Row>
               <Col sm={1}>
                 <Image
@@ -40,14 +45,14 @@ const CardComments = ({ post }) => {
                   alt="avatar"
                 />
               </Col>
+
               <h6>{comment.User.username}</h6>
               <span>{comment.message}</span>
+
             </Row>
             <DeleteComment comment={comment} postId={post.id} />
-
           </div>
         )
-
       })}
 
       {userData.id && (

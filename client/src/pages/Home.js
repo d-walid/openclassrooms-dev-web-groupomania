@@ -18,10 +18,12 @@ const Home = () => {
 
   return (
     <>
+
       <Container fluid>
         {uid ? <NewPostForm /> : <Auth signin={true} signup={false} />}
         <Thread />
       </Container>
+
     </>
   );
 };

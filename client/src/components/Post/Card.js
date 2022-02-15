@@ -1,16 +1,27 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { dateParser, isEmpty } from '../Utils/Utils';
-import { Card as CardBootstrap, Image, Col, Row, Button, Container, FormControl } from 'react-bootstrap';
+
+// Actions
 import { updatePost } from '../../actions/post.actions';
+
+// Components
 import DeleteCard from './DeleteCard';
 import CardComments from './CardComments';
+
+// Redux
+import { useDispatch, useSelector } from 'react-redux';
+
+// Styles
+import { Card as CardBootstrap, Image, Col, Row, Button, Container, FormControl } from 'react-bootstrap';
+
+// Utils
+import { dateParser, isEmpty } from '../Utils/Utils';
 
 const Card = ({ post }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [isUpdated, setIsUpdated] = useState(false);
   const [textUpdate, setTextUpdate] = useState(null);
   const [showComments, setShowComments] = useState(false);
+
   const postsData = useSelector(state => state.postReducer);
   const userData = useSelector(state => state.userReducer);
   const dispatch = useDispatch();
@@ -30,11 +41,11 @@ const Card = ({ post }) => {
 
   return (
     <Container className='mb-5' key={post.id}>
+
       {isLoading ? (
         <h6>Chargement</h6>
       ) : (
         <>
-
           <Row>
             <Col sm={1}>
               <Image
@@ -127,10 +138,8 @@ const Card = ({ post }) => {
             </Col>
           )}
 
-
           {post.link && (
             <Col sm={4}>
-
               <iframe
                 title="post-video"
                 width="300"
@@ -142,7 +151,6 @@ const Card = ({ post }) => {
               ></iframe>
             </Col>
           )}
-
 
           {userData.id === post.User.id ? (
             <>
@@ -182,6 +190,7 @@ const Card = ({ post }) => {
           {showComments && <CardComments post={post} />}
         </>
       )}
+
     </Container>
   );
 };
