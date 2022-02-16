@@ -31,7 +31,7 @@ const App = () => {
         .then(res => {
           setUid(res.data.user.id);
         })
-        .catch(err => console.log('Aucun token trouvé.'));
+        .catch(err => err);
     };
     fetchToken();
 

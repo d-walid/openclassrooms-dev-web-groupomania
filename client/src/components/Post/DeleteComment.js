@@ -46,8 +46,8 @@ const DeleteComment = ({ comment, postId }) => {
         >
 
           <Image
-            width={35}
-            height={35}
+            width={30}
+            height={30}
             fluid={true}
             src="./img/icons/trash.svg" alt="trash"
           />

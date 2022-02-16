@@ -11,8 +11,8 @@ export const getUsers = () => {
       .then(res => {
         dispatch({ type: GET_USERS, payload: res.data });
       })
-      .catch(err => {
-        console.log(err.stack);
-      });
+      .catch(err =>
+        err.stack
+      );
   };
 };

@@ -10,7 +10,7 @@ import DeleteComment from './DeleteComment';
 import { useDispatch, useSelector } from 'react-redux';
 
 // Styles
-import { Container, Form, FormControl, Row, Col, Button, Image } from 'react-bootstrap';
+import { Container, Form, FormControl, Button, Image, Card } from 'react-bootstrap';
 
 const CardComments = ({ post }) => {
   const [message, setMessage] = useState('');
@@ -30,50 +30,58 @@ const CardComments = ({ post }) => {
   return (
 
     <Container className='mt-3'>
-
       {post.Comments.map((comment) => {
         return (
-          <div key={comment.id}>
-            <Row>
-              <Col sm={1}>
+
+          <Container fluid key={comment.id}>
+            <Card style={{ width: '14rem' }}>
+              <Card.Header className='d-flex justify-content-between'>
                 <Image
-                  className='mt-3'
                   roundedCircle
-                  width={30}
-                  height={30}
-                  fluid={true}
+                  width={40}
+                  height={40}
                   src={comment.User.avatar}
                   alt="avatar"
                 />
-              </Col>
+                <Card.Title className='mt-auto'>
+                  {comment.User.username}
+                </Card.Title>
+              </Card.Header>
+              <Card.Body>
+                <Card.Text>
+                  {comment.message}
+                </Card.Text>
+              </Card.Body>
+            </Card>
 
-              <h6>{comment.User.username}</h6>
-              <span>{comment.message}</span>
-
-            </Row>
-            <DeleteComment comment={comment} postId={post.id} />
-          </div>
+            <DeleteComment comment={comment} />
+          </Container>
         )
       })}
 
       {userData.id && (
+
         <Form
           action=''
           onSubmit={handleComment}
           className="comment-form"
         >
           <FormControl
-            className='w-50'
+            className="w-50"
             type='text'
             name='text'
             value={message}
             onChange={(event) => setMessage(event.target.value)}
             placeholder="Ajouter un commentaire"
           />
-          <Button type='submit' variant="outline-primary">
-            Ajouter un commentaire
+          <Button
+            type='submit'
+            className='mt-2'
+            variant="outline-primary">
+            Ajouter
           </Button>
         </Form>
+
       )}
 
     </Container>

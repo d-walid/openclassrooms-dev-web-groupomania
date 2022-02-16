@@ -24,6 +24,7 @@ const DeleteCard = (props) => {
     >
 
       <Image
+        className='mt-2'
         width={35}
         height={35}
         fluid={true}

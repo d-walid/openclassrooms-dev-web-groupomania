@@ -11,7 +11,7 @@ import CardComments from './CardComments';
 import { useDispatch, useSelector } from 'react-redux';
 
 // Styles
-import { Card as CardBootstrap, Image, Col, Row, Button, Container, FormControl } from 'react-bootstrap';
+import { Card as CardBootstrap, Image, Col, Button, Container, FormControl } from 'react-bootstrap';
 
 // Utils
 import { dateParser, isEmpty } from '../Utils/Utils';
@@ -47,9 +47,12 @@ const Card = ({ post }) => {
         <h6>Chargement</h6>
       ) : (
         <>
-          <Row>
-            <Col sm={1}>
+          {/* Bloc Header & Date du post */}
+
+          <CardBootstrap>
+            <CardBootstrap.Header className='d-flex'>
               <Image
+                style={{ marginRight: '10px' }}
                 className='mb-3'
                 width={100}
                 height={100}
@@ -66,43 +69,61 @@ const Card = ({ post }) => {
                 }
                 alt="avatar"
               />
-            </Col>
-          </Row>
+              {!isEmpty(postsData[0]) &&
+                postsData.map(user => {
+                  if (user.id === post.id) {
+                    return (
 
-          {/* Bloc Header & Date du post */}
-          <Row>
-            <Col>
-              <CardBootstrap>
-                <CardBootstrap.Header>
-                  {!isEmpty(postsData[0]) &&
-                    postsData.map(user => {
-                      if (user.id === post.id) {
-                        return (
-                          <h4>{user.User.username}</h4>
-                        );
-                      }
-                      else return null;
-                    })}
-                  <span>{dateParser(post.createdAt)}</span>
-                </CardBootstrap.Header>
-              </CardBootstrap>
-            </Col>
-          </Row>
+                      <CardBootstrap.Title className='mt-auto mb-auto'>
+                        <h4>{user.User.username}</h4>
+                        <h6>{dateParser(post.createdAt)}</h6>
+                      </CardBootstrap.Title>
 
-          {isUpdated === false && (
-            <>
-              {/* Bloc du post */}
-              <Row>
-                <Col>
-                  <div
-                    className='mb-4'
-                    style={{ wordBreak: 'break-all' }}>
+                    );
+                  }
+                  else return null;
+                })}
+            </CardBootstrap.Header>
+
+            {isUpdated === false && (
+              <>
+
+                <CardBootstrap.Body>
+                  <CardBootstrap.Text>
                     {post.message}
-                  </div>
-                </Col>
-              </Row>
-            </>
-          )}
+                  </CardBootstrap.Text>
+                </CardBootstrap.Body>
+              </>
+            )}
+
+            {post.imageUrl && (
+              <Col sm={4}>
+                <Image
+                  className='mb-4'
+                  width={300}
+                  height={300}
+                  fluid={true}
+                  src={post.imageUrl}
+                  alt="post-img"
+                />
+              </Col>
+            )}
+
+            {post.link && (
+              <Col sm={4}>
+                <iframe
+                  className='mb-4'
+                  title="post-video"
+                  width="300"
+                  height="300"
+                  src={post.link}
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                ></iframe>
+              </Col>
+            )}
+          </CardBootstrap>
 
           {isUpdated && (
             <>
@@ -124,36 +145,13 @@ const Card = ({ post }) => {
             </>
           )}
 
-          {post.imageUrl && (
 
-            <Col sm={4}>
-              <Image
-                width={300}
-                height={300}
-                fluid={true}
-                src={post.imageUrl}
-                alt="post-img"
-              />
-            </Col>
-          )}
-
-          {post.link && (
-            <Col sm={4}>
-              <iframe
-                title="post-video"
-                width="300"
-                height="300"
-                src={post.link}
-                frameBorder="0"
-                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              ></iframe>
-            </Col>
-          )}
 
           {userData.id === post.User.id ? (
             <>
+
               <Image
+                className='mt-2'
                 width={35}
                 height={35}
                 fluid={true}
@@ -161,8 +159,10 @@ const Card = ({ post }) => {
               />
               <DeleteCard id={post.id} />
             </>
+
           ) : (
             userData.isAdmin && (
+
               <>
                 <Image
                   width={35}
@@ -172,11 +172,13 @@ const Card = ({ post }) => {
                 />
                 <DeleteCard id={post.id} />
               </>
+
             )
           )}
 
           {/* Bloc et icone commentaire */}
           <Image
+            className='mt-2'
             width={35}
             height={35}
             fluid={true}
@@ -189,7 +191,6 @@ const Card = ({ post }) => {
           {showComments && <CardComments post={post} />}
         </>
       )}
-
     </Container>
 
   );

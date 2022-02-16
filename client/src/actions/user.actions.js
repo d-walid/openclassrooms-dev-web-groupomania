@@ -25,7 +25,7 @@ export const getUser = uid => {
           }
         });
       })
-      .catch(err => console.log(err.message));
+      .catch(err => err.message);
   };
 };
 
@@ -48,13 +48,9 @@ export const uploadPicture = (data, id) => {
           .then(res => {
             dispatch({ type: UPLOAD_PICTURE, payload: res.data.user.avatar });
           })
-          .catch(err => {
-            console.log(err.response.data);
-          });
+          .catch(err => err.message);
       })
-      .catch(err => {
-        console.log(err.response);
-      });
+      .catch(err => err.message);
   };
 };
 
@@ -76,7 +72,7 @@ export const updateBio = (id, biography) => {
       .then(res => {
         dispatch({ type: UPDATE_BIO, payload: biography });
       })
-      .catch(err => console.log(err.response));
+      .catch(err => err.response);
   };
 };
 
@@ -97,6 +93,6 @@ export const deleteUser = id => {
       .then(res => {
         dispatch({ type: DELETE_USER });
       })
-      .catch(err => console.log(err.stack));
+      .catch(err => err.response);
   };
 }

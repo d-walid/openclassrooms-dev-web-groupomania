@@ -7,7 +7,7 @@ import { addPost, getPosts } from '../../actions/post.actions';
 import { useSelector, useDispatch } from 'react-redux';
 
 // Styles
-import { Button, Card, Container, Image, Row, Col, FormControl, Form } from 'react-bootstrap';
+import { Button, Card, Container, Image, FormControl, Form } from 'react-bootstrap';
 
 // Utils 
 import { isEmpty, timestampParser } from '../Utils/Utils';
@@ -84,94 +84,104 @@ const NewPostForm = () => {
         <h6>Chargement</h6>
       ) : (
         <>
-          <Row>
-            <Col sm={1}>
+
+          <Card style={{ width: '40%' }} >
+            <Card.Header className='d-flex justify-content-evenly'>
               <Image
-                className='mb-3'
+                className='mb-2'
                 roundedCircle
                 width={100}
                 height={100}
-                fluid={true}
                 src={userData.avatar}
                 alt="avatar-post-author"
               />
-            </Col>
+              <Card.Title
+                className='mt-auto mb-auto'>
+                {userData.username}
+              </Card.Title>
+            </Card.Header>
+            <FormControl
+              as="textarea"
+              size="md"
+              rows="3"
+              name='message'
+              id='message'
+              placeholder='Dites quelque chose...'
+              onChange={(event) => setMessage(event.target.value)}
+              value={message}
+            />
+          </Card>
 
-            <Col sm={3}>
-              <FormControl
-                as="textarea"
-                size="md"
-                rows="3"
-                name='message'
-                id='message'
-                placeholder='Dites quelque chose...'
-                onChange={(event) => setMessage(event.target.value)}
-                value={message}
-              />
-            </Col>
+          {message || postPicture || link.length > 20 ? (
+            <Container fluid className='mt-5'>
+              <Card>
+                <Card.Header className='d-flex'>
+                  <Image
+                    style={{ marginRight: '10px' }}
+                    roundedCircle
+                    width={75}
+                    height={75}
+                    src={userData.avatar}
+                    alt="avatar-post-author"
+                  />
+                  <Card.Title className='mt-auto mb-auto'>
+                    {userData.username}
+                    <h6>{timestampParser(Date.now())}</h6>
+                  </Card.Title>
+                </Card.Header>
+                <Card.Body>
+                  <Card.Text>
+                    {message}
+                  </Card.Text>
 
+                  <Image src={postPicture} alt='' />
+                  {link && (
+                    <iframe
+                      title='link'
+                      width="415"
+                      height="400"
+                      src={link}
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    ></iframe>
+                  )}
+                </Card.Body>
+
+              </Card>
+
+
+            </Container>
+          ) : null}
+
+          <div className="icon">
+            {isEmpty(link) && (
+              <>
+                <Form.Group controlId="formFile" className="mt-3 mb-3">
+                  <Form.Control
+                    className="w-25"
+                    type="file"
+                    onChange={handlePicture}
+                  />
+                </Form.Group>
+              </>
+            )}
+            {link && (
+              <Button
+                className='mb-2'
+                onClick={() => setLink('')}>
+                Supprimer la vidéo
+              </Button>
+            )}
+          </div>
+
+          <div className='footer-post'>
             {message || postPicture || link.length > 20 ? (
-              <Container fluid>
-                <Row>
-                  <Col sm={4}>
-                    <Card>
-                      <Card.Header>
-                        <h4>{userData.username}</h4>
-                        <span>{timestampParser(Date.now())}</span>
-                      </Card.Header>
-                      <Card.Body>
-                        <Card.Text>
-                          {message}
-                        </Card.Text>
-                      </Card.Body>
-                    </Card>
-                  </Col>
-                </Row>
-
-                <Image src={postPicture} alt='' />
-                {link && (
-                  <iframe
-                    title='link'
-                    width="415"
-                    height="400"
-                    src={link}
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  ></iframe>
-                )}
-              </Container>
+              <Button variant='secondary' onClick={cancelPost}>Annuler</Button>
             ) : null}
+            <Button variant='primary' onClick={handlePost}>Envoyer</Button>
+          </div>
 
-            <div className="icon">
-              {isEmpty(link) && (
-                <>
-                  <Form.Group controlId="formFile" className="mt-3 mb-3">
-                    <Form.Control
-                      className="w-50"
-                      type="file"
-                      onChange={handlePicture}
-                    />
-                  </Form.Group>
-                </>
-              )}
-              {link && (
-                <Button
-                  className='mb-2'
-                  onClick={() => setLink('')}>
-                  Supprimer la vidéo
-                </Button>
-              )}
-            </div>
-
-            <div className='footer-post'>
-              {message || postPicture || link.length > 20 ? (
-                <Button variant='secondary' onClick={cancelPost}>Annuler</Button>
-              ) : null}
-              <Button variant='primary' onClick={handlePost}>Envoyer</Button>
-            </div>
-
-          </Row>
         </>
 
       )}

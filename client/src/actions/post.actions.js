@@ -40,7 +40,7 @@ export const getPosts = () => {
           payload: res.data
         });
       })
-      .catch(err => console.log(err));
+      .catch(err => err);
   };
 };
 
@@ -67,7 +67,7 @@ export const likePost = (id, userId) => {
           payload: res.data
         });
       })
-      .catch(err => console.log(err));
+      .catch(err => err);
   };
 };
 
@@ -94,7 +94,7 @@ export const unlikePost = (postId, userId) => {
           payload: res.data
         });
       })
-      .catch(err => console.log(err));
+      .catch(err => err);
   };
 };
 
@@ -116,7 +116,7 @@ export const getLikes = (postId) => {
           payload: res.data.likes
         });
       })
-      .catch(err => console.log(err));
+      .catch(err => err);
   };
 }
 
@@ -136,9 +136,9 @@ export const updatePost = (postId, message) => {
     })
       .then(res => {
         dispatch({ type: UPDATE_POST, payload: { message, postId } });
-        console.log(res);
+
       })
-      .catch(err => console.log(err.response));
+      .catch(err => err.response);
   }
 }
 
@@ -157,9 +157,8 @@ export const deletePost = (postId) => {
     })
       .then(res => {
         dispatch({ type: DELETE_POST, payload: { postId } });
-        console.log(res);
       })
-      .catch(err => console.log(err.response));
+      .catch(err => err.response);
   }
 }
 
@@ -182,10 +181,9 @@ export const addComment = (postId, UserId, message, username) => {
       }
     })
       .then(res => {
-        console.log(res.data.Comment);
         dispatch({ type: ADD_COMMENT, payload: res.data.Comment });
       })
-      .catch(err => console.log(err.response));
+      .catch(err => err.response);
   }
 }
 
@@ -210,8 +208,7 @@ export const deleteComment = (id, UserId, PostId, username) => {
     })
       .then(res => {
         dispatch({ type: DELETE_COMMENT, payload: { id } });
-        console.log(res);
       })
-      .catch(err => console.log(err.response));
+      .catch(err => err.response);
   }
 }
