@@ -177,9 +177,18 @@ const NewPostForm = () => {
 
           <div className='footer-post'>
             {message || postPicture || link.length > 20 ? (
-              <Button variant='secondary' onClick={cancelPost}>Annuler</Button>
+              <Button
+                style={{ marginRight: '10px' }}
+                variant='secondary'
+                onClick={cancelPost}>
+                Annuler
+              </Button>
             ) : null}
-            <Button variant='primary' onClick={handlePost}>Envoyer</Button>
+            <Button
+              variant='primary'
+              onClick={handlePost}>
+              Envoyer
+            </Button>
           </div>
 
         </>

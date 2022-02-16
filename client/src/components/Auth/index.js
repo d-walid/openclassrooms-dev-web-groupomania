@@ -25,6 +25,7 @@ const Auth = props => {
     <Container fluid='sm'>
 
       <Button
+        style={{ marginRight: '10px' }}
         className='mt-3 mb-3'
         variant='primary'
         id='register'
