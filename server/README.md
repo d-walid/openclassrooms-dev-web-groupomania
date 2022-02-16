@@ -1,6 +1,10 @@
 # Installation du backend
 
-# Prérequis
+## Tech Stack
+
+**Server:** Node, Express, Sequelize, MySQL
+
+## Prérequis
 
 - Vous devez avoir React, Node et MySQL d'installé sur votre machine.
 - Vérifiez que les informations contenues dans config.json correspondent à vos identifiants MySQL
@@ -8,11 +12,11 @@
 ## Installation
 
 ```bash
-  cd server
-  npm install
-  npx sequelize-cli db:create groupomania
-  npx sequelize-cli db:migrate
-  npm start
+cd server
+npm install
+npx sequelize-cli db:create groupomania
+npx sequelize-cli db:migrate
+npm start
 ```
 
 ## Environment Variables
@@ -28,8 +32,8 @@ CLIENT_URL=http://localhost:3000
 ## Bases des routes
 
 ```http
-  /api/user
-  /api/post
+/api/user
+/api/post
 ```
 
 ### Routes d'authentification
@@ -139,7 +143,7 @@ GET /comments/:id
 - Supprimer un commentaire d'une publication
 
 ```http
- DELETE /comment/:id
+DELETE /comment/:id
 ```
 
 ## Authors
