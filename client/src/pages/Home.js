@@ -21,7 +21,7 @@ const Home = () => {
 
       <Container fluid>
         {uid ? <NewPostForm /> : <Auth signin={true} signup={false} />}
-        <Thread />
+        {uid && <Thread />}
       </Container>
 
     </>

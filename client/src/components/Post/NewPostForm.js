@@ -85,7 +85,7 @@ const NewPostForm = () => {
       ) : (
         <>
 
-          <Card style={{ width: '40%' }} >
+          <Card style={{ width: '60%' }} >
             <Card.Header className='d-flex justify-content-evenly'>
               <Image
                 className='mb-2'

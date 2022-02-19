@@ -38,19 +38,18 @@ exports.deleteComment = async (req, res) => {
   try {
     const userId = token.getUserIdFromToken(req);
     const comment = await db.Comment.findOne({
-      attributes: ['id', 'UserId', 'message', 'username'],
       where: {
-        id: req.params.id,
-        UserId: userId,
-      },
+        id: req.params.id
+      }
     });
+    console.log(comment);
 
     // Suppression du commentaire si l'utilisateur est l'auteur du commentaire ou si il est admin.
     const isAdmin = await db.User.findOne({ where: { id: userId } });
     if (comment.UserId === userId || isAdmin.isAdmin === true) {
       await db.Comment.destroy({
         where: {
-          id: req.params.id
+          id: req.params.id,
         }
       });
       res.status(200).json({
@@ -62,7 +61,7 @@ exports.deleteComment = async (req, res) => {
       res.status(401).send({ error: "Vous n'avez pas le droit de supprimer ce commentaire." })
     }
   } catch (error) {
-    res.status(403).send({ error: error.message })
+    res.status(403).send({ error: "Une erreur est survenue. Vous n'êtes pas connecté(e) ou vous n'avez pas le droit de supprimer ce commentaire." })
   }
 }
 
